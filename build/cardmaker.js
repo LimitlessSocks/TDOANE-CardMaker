@@ -4424,7 +4424,7 @@ define('tcg/ygo/Checkbox',["react", "react-class"], function(React, ReactClass){
 define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Checkbox"], function App(React, ReactClass, Card, WebFont, Checkbox)
 {
     var emptyCard = {
-        version: "1.2.0",
+        version: "1.0.0",
         rarity: "Common",
         name: "",
         level: 0,
@@ -4480,11 +4480,11 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 card:
                 {
                     version: "1.0.0",
-                    name: "My Own Card",
+                    name: "Custom Card",
                     level: 4,
-                    type: "Cyberse / Pendulum",
+                    type: "Cyberse/Pendulum/Effect",
                     icon: "None",
-                    effect: "A card maker that supports the creation of Normal, Effect, Ritual, Fusion, Synchro, Dark Synchro, Xyz and Link monsters. It also provides support for creating Pendulum versions of some card types.",
+                    effect: "A modern card designer.",
                     atk: "0",
                     def: "0",
                     serial: "This card cannot be used in a Duel.",

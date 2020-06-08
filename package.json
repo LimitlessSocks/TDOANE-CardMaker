@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "r.js -o build/config.js",
+    "build": "node r.js -o build/config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/yemachu/cardmaker/issues"
   },
-  "homepage": "https://github.com/yemachu/cardmaker#readme"
+  "homepage": "https://github.com/yemachu/cardmaker#readme",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "requirejs": "^2.3.6",
+    "serve-static": "^1.14.1"
+  }
 }
