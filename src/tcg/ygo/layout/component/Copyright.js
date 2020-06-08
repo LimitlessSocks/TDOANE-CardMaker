@@ -4,17 +4,21 @@ define(["react", "react-class", "draw/Text"], function Copyright(React, ReactCla
 		render: function render()
 		{
 			return React.createElement(Text, { text: this.props.value, style: {
-				fontFamily: ["Matrix Book", "Spectral", "serif"],
-				color: this.props.color,
-				fontSize: 12,
+                color: this.props.color,
+                // fontSize: 17,
+                fontSize: 12,
+				fontFamily: ["Stone Serif", "Papyrus"],
 				textAlign: "right",
 				whitespace: "nowrap",
 
-				left: 230,
-				top: 580,
+                left: 230,
+				top: 587,
 				width: 150,
-				height: undefined
-			}, canvas: this.props.canvas, repaint: this.props.repaint })
+				// left: 200,
+				// top: 584,
+				// width: 200,
+				height: 14
+			}, canvas: this.props.canvas, repaint: this.props.repaint});
 		}
 	});
 	Copyright.displayName = "Copyright";

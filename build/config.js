@@ -12,5 +12,6 @@
 		"startFile": "./start.frg",
 		"endFile": "./end.frg"
 	},
-	"out": "cardmaker.js"
+	"out": "cardmaker.js",
+    "optimize": "none"
 })

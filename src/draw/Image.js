@@ -3,7 +3,7 @@ define(["react", "react-class"], function Image(React, ReactClass)
 	/**
 	 * Image to draw on a canvas.
 	 *
-	 * In case no canvas DOM element is provided to it, it should default to 
+	 * In case no canvas DOM element is provided to it, it should default to
 	 * a regular DOM image.
 	 */
 	var image = ReactClass({
@@ -11,7 +11,7 @@ define(["react", "react-class"], function Image(React, ReactClass)
 		{
 			return { image: null };
 		},
-		
+
 		render: function render()
 		{
 			return React.createElement(
@@ -31,13 +31,13 @@ define(["react", "react-class"], function Image(React, ReactClass)
 				}
 			)
 		},
-		
+
 		onLoad: function loaded(img)
 		{
 			this.setState({ image: img.target });
 			this.props.repaint();
 		},
-		
+
 		componentDidUpdate: function()
 		{
 			var canvas = this.props.canvas;
@@ -48,13 +48,13 @@ define(["react", "react-class"], function Image(React, ReactClass)
 				ctx.save();
 				ctx.globalCompositeOperation = this.props.style.mixBlendMode;
 				ctx.drawImage(
-					this.state.image, 
-					this.props.style.left, 
-					this.props.style.top, 
+					this.state.image,
+					this.props.style.left,
+					this.props.style.top,
 					// Width and height might not be provided, default to the dimensions
 					// of the specified image in that case. Note that a width of 0 results
 					// in the default size.
-					this.props.style.width || this.state.image.width, 
+					this.props.style.width || this.state.image.width,
 					this.props.style.height || this.state.image.height
 				);
 				ctx.restore();
@@ -65,15 +65,15 @@ define(["react", "react-class"], function Image(React, ReactClass)
 	// Assigning them this way seems to solve it.
 	image.defaultProps = {
 		style: {
-			left: 0, // 
+			left: 0, //
 			top: 0,
-			width: undefined, 
-			height: undefined, 
+			width: undefined,
+			height: undefined,
 			mixBlendMode: "normal"
 		},
-		canvas: null, 
-		repaint: function repaint(){/* Empty function.*/} 
+		canvas: null,
+		repaint: function repaint(){/* Empty function.*/}
 	};
-	
+
 	return image;
 });

@@ -5,14 +5,18 @@ define([
 	"./Fusion",
 	"./Synchro",
 	"./DarkSynchro",
+	"./Epoch",
+	"./Warp",
 	"./Unity",
 	"./Xyz",
 	"./Link",
 	"./Token",
 	"./Spell",
 	"./Trap",
-	"./Skill"
-], function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, DarkSynchro, Unity, Xyz,  Link, Token, Spell, Trap, Skill)
+	"./Skill",
+	"./Rainbow",
+],
+function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, DarkSynchro, Epoch, Warp, Unity, Xyz, Link, Token, Spell, Trap, Skill, Rainbow)
 {
 	return {
 		Normal: { value: "Normal", fn: Normal },
@@ -20,13 +24,16 @@ define([
 		Ritual: { value: "Ritual", fn: Ritual },
 		Fusion: { value: "Fusion", fn: Fusion },
 		Synchro: { value: "Synchro", fn:Synchro },
-		DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
-		Xyz: { value: "Xyz", fn: Xyz },
-		Unity: { value: "Unity", fn: Unity },
+        Xyz: { value: "Xyz", fn: Xyz },
 		Link: { value: "Link", fn: Link },
 		Token: { value: "Token", fn: Token },
 		Spell: { value: "Spell", fn: Spell },
 		Trap: { value: "Trap", fn: Trap },
-		Skill: { value: "Skill", fn: Skill }
+		Skill: { value: "Skill", fn: Skill },
+		DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
+		Epoch: { value: "Epoch", name: "Epoch", fn: Epoch },
+		Warp: { value: "Warp", name: "Warp", fn: Warp },
+		Unity: { value: "Unity", fn: Unity },
+		Rainbow: { value: "Rainbow", fn: Rainbow },
 	};
 });

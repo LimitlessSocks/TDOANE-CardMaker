@@ -4,7 +4,7 @@ define(["react", "react-class"], function Text(React, ReactClass)
 	 * Draws styled text on a DOM canvas.
 	 */
 	var Text = ReactClass({
-		
+
 		render: function render()
 		{
 			return React.createElement(
@@ -17,18 +17,18 @@ define(["react", "react-class"], function Text(React, ReactClass)
 				this.props.text
 			)
 		},
-		
+
 		componentDidMount: function didMount()
 		{
 			this.draw();
 		},
-		
+
 		// Canvas won't be available on the first cycle anyway, so use "update".
 		componentDidUpdate: function didUpdate()
 		{
 			this.draw();
 		},
-		
+
 		draw: function render()
 		{
 			var canvas = this.props.canvas;
@@ -36,19 +36,19 @@ define(["react", "react-class"], function Text(React, ReactClass)
 			if (canvas !== null)
 			{
 				var ctx = canvas.getContext("2d");
-				
+
 				// this.props cannot be modified by default. Make a deep copy that loses
 				// any read-only traits.
 				var style = JSON.parse(JSON.stringify(this.props.style));
-				
+
 				ctx.save();
 				ctx.fillStyle = style.color || "black";
-				var paragraphs; 
+				var paragraphs;
 				do
 				{
 					this.setFont(ctx, style);
 					paragraphs = this.createParagraphs(ctx, this.props.text, style.width);
-					
+
 					// Calculate the height of the text, as it is needed for determining
 					// whether the text should shrink or not.
 					var height = style.fontSize * paragraphs.reduce(function(accumulator, current)
@@ -63,43 +63,47 @@ define(["react", "react-class"], function Text(React, ReactClass)
 					}
 					// Lower the font size and try again, until it makes no sens to go on.
 					style.fontSize -= 0.25;
+					// style.fontSize -= 0.1;
+					// style.fontSize -= 1;
 				} while(style.fontSize > 0);
-				
+
+                // style.fontSize = Math.floor(style.fontSize);
+                // console.log(paragraphs, style);
 				this.drawText(ctx, paragraphs, style.fontSize);
 				ctx.restore();
 			}
 		},
-		
-		
+
+
 		createParagraphs: function createParagraphs(ctx, text, availableWidth)
 		{
-			// Each linebreak indicates a new paragraph as far as this element is 
+			// Each linebreak indicates a new paragraph as far as this element is
 			// concerned. This does not match its DOM behaviour.
 			return text.split("\n").map(function(paragraph)
 			{
 				switch (this.props.style.whitespace) {
 					case "nowrap": return [paragraph];
-					default:       return this.wrapParagraph(ctx, paragraph, availableWidth);	
+					default:       return this.wrapParagraph(ctx, paragraph, availableWidth);
 				}
-				
+
 			}, this);
 		},
-		
+
 		wrapParagraph: function wrapParagraph(ctx, paragraph, availableWidth)
 		{
 			// Use spaces as separator for words, and remove double spaces, as they
 			// wouldn't show up in the DOM either.
 			var words = paragraph.split(" ").filter(function(word){return word.length > 0;});
 			var lines = [];
-			
+
 			var spaceWidth = ctx.measureText(" ").width;
 			var line = { width: -spaceWidth, words: []};
-			
+
 			for (var i=0; i<words.length; ++i)
 			{
 				var word = words[i];
 				var wordWidth = ctx.measureText(word).width;
-				
+
 				if ((line.width + wordWidth + spaceWidth) < availableWidth)
 				{
 					line.width += wordWidth + spaceWidth;
@@ -118,7 +122,7 @@ define(["react", "react-class"], function Text(React, ReactClass)
 			lines[lines.length] = line.words.join(" ");
 			return lines;
 		},
-		
+
 		/**
 		 * Draws a block of text based on the style applied to this text.
 		 *
@@ -135,11 +139,11 @@ define(["react", "react-class"], function Text(React, ReactClass)
 				for (var currentline=0; currentline<lines.length; ++currentline)
 				{
 					var line = lines[currentline];
-					// Account for the new line. By default the text is drawn at the 
+					// Account for the new line. By default the text is drawn at the
 					// baseline, which is one line higher than one might expect; that
 					// issue is also solved by moving one line down.
 					ctx.translate(0, lineHeight);
-					// Determine which alignment strategy to use, given a DOM canvas 
+					// Determine which alignment strategy to use, given a DOM canvas
 					//doesn't provide all of them, and some have side effects.
 					switch(this.props.style.textAlign)
 					{
@@ -147,7 +151,7 @@ define(["react", "react-class"], function Text(React, ReactClass)
 						case "left":    this.drawTextLeftAligned(ctx, line);     break;
 						case "right":   this.drawTextRightAligned(ctx, line);    break;
 						case "center":  this.drawTextCentered(ctx, line);        break;
-						case "justify": 
+						case "justify":
 						{
 							// The last line of justified text is typically aligned according
 							// to the default alignment. Account for that by using a different
@@ -164,13 +168,23 @@ define(["react", "react-class"], function Text(React, ReactClass)
 			}
 			ctx.restore();
 		},
-		
+
 		drawTextDefaultAligned: function defaultAligned(ctx, text)
 		{
 			// TODO: Account for text direction styles (rtl, ltr).
 			this.drawTextLeftAligned(ctx, text);
 		},
-		
+
+        renderText: function renderText(ctx, text, x, y) {
+            // console.log("RENDERTEXT", this.props);
+            if(this.props.style.strokeWidth) {
+                ctx.strokeStyle = this.props.style.strokeColor;
+                ctx.lineWidth = this.props.style.strokeWidth;
+                ctx.strokeText(text, x, y);
+            }
+            ctx.fillText(text, x, y);
+        },
+
 		/**
 		 * Draws a single line of text that hugs the left egde.
 		 *
@@ -181,15 +195,15 @@ define(["react", "react-class"], function Text(React, ReactClass)
 		{
 			var textWidth = ctx.measureText(text).width;
 			var availableWidth = this.props.style.width || 0;
-			
+
 			var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
 			ctx.save();
 			ctx.scale(scale, 1);
-			
-			ctx.fillText(text, 0, 0);
+
+			this.renderText(ctx, text, 0, 0);
 			ctx.restore();
 		},
-		
+
 		/**
 		 * Draws a single line of text that hugs the right egde.
 		 *
@@ -200,17 +214,17 @@ define(["react", "react-class"], function Text(React, ReactClass)
 		{
 			var textWidth = ctx.measureText(text).width;
 			var availableWidth = this.props.style.width || 0;
-			
+
 			var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
-			
+
 			ctx.save();
 			ctx.translate((availableWidth - (textWidth * scale)), 0);
 			ctx.scale(scale, 1);
-			
-			ctx.fillText(text, 0, 0);
+
+			this.renderText(ctx, text, 0, 0);
 			ctx.restore();
 		},
-		
+
 		/**
 		 * Draws a single line of text that hugs neither edge.
 		 *
@@ -221,17 +235,17 @@ define(["react", "react-class"], function Text(React, ReactClass)
 		{
 			var textWidth = ctx.measureText(text).width;
 			var availableWidth = this.props.style.width || 0;
-			
+
 			var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
-			
+
 			ctx.save();
 			ctx.translate((availableWidth / 2) - ((textWidth * scale) / 2), 0);
 			ctx.scale(scale, 1);
-			
-			ctx.fillText(text, 0, 0);
+
+			this.renderText(ctx, text, 0, 0);
 			ctx.restore();
 		},
-		
+
 		/**
 		 * Draws a single line of text that hugs the left and right egde.
 		 *
@@ -244,19 +258,19 @@ define(["react", "react-class"], function Text(React, ReactClass)
 			var words = text.split(" ");
 			var spaceWidth = ctx.measureText(" ").width;
 			// Amount of leftover space that is added between each two words.
-			var flexible = (this.props.style.width - ctx.measureText(text).width) 
+			var flexible = (this.props.style.width - ctx.measureText(text).width)
 			             / (Math.max(1, words.length-1));
-			
+
 			// Update the position of the cursor.
 			var xOffset = 0;
-			
+
 			for (var i=0; i<words.length; ++i)
 			{
-				ctx.fillText(words[i], xOffset, 0);
+				this.renderText(ctx, words[i], xOffset, 0);
 				xOffset += ctx.measureText(words[i]).width + spaceWidth + flexible;
 			}
 		},
-		
+
 		setFont: function setFont(ctx, style)
 		{
 			// This function should only be called internally,
@@ -271,9 +285,9 @@ define(["react", "react-class"], function Text(React, ReactClass)
 				style.fontFamily // Array in the order of which font should be tried.
 			].join(" ");
 		}
-		
+
 	});
-	
+
 	Text.displayName = "Text";
 	Text.defaultProps = {
 		// Avoid sanity checks by providing a pure function.
@@ -281,7 +295,7 @@ define(["react", "react-class"], function Text(React, ReactClass)
 		canvas: null, // Canvas on which this element should draw.
 		text: "", // Default to an empty string.
 		width: undefined, // Text can go on indefinitly on the same line.
-		style: { 
+		style: {
 			color: "black",
 			fontFamily: [ "serif" ], // Font to use if not specified.
 			fontVariant: "normal", // Could be small caps.

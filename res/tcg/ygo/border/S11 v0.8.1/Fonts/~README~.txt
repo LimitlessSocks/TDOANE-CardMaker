@@ -1,0 +1,1 @@
+*Install Fonts even if they are already installed.

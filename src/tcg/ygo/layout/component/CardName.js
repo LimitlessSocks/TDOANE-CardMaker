@@ -4,9 +4,22 @@ define(["react", "react-class", "draw/Text", "../../Rarities"], function CardNam
 	var stylePreset =  {
 		regular: {
 			fontFamily: ["Matrix Regular Small Caps", "Spectral SC", "serif"],
+			fontSize: 46,
+			fontStyle: "normal",
+			fontWeight: 400,
+			textAlign: "left",
+			whitespace: "nowrap",
+
+			left: 28,
+			top: 12,
+			width: 323,
+			height: 48
+		},
+		skill: {
+			fontFamily: ["Heebo", "sans-serif"],
 			fontSize: 32,
 			fontStyle: "normal",
-			fontWeight: 600,
+			fontWeight: 500,
 			textAlign: "left",
 			whitespace: "nowrap",
 
@@ -15,19 +28,19 @@ define(["react", "react-class", "draw/Text", "../../Rarities"], function CardNam
 			width: 315,
 			height: 48
 		},
-		skill: {
-				fontFamily: ["Heebo", "sans-serif"],
-				fontSize: 32,
-				fontStyle: "normal",
-				fontWeight: 500,
-				textAlign: "left",
-				whitespace: "nowrap",
+        rush: {
+			fontFamily: ["Matrix Regular Small Caps", "Spectral SC", "serif"],
+			fontSize: 46,
+			fontStyle: "normal",
+			fontWeight: 400,
+			textAlign: "left",
+			whitespace: "nowrap",
 
-				left: 32,
-				top: 24,
-				width: 315,
-				height: 48
-		}
+			left: 28,
+			top: 4,
+			width: 310,
+			height: 48
+        }
 	}
 	var colors = {
 		default: { highlight: { color: "transparent" }, base: { color: "#000"} },
@@ -40,7 +53,11 @@ define(["react", "react-class", "draw/Text", "../../Rarities"], function CardNam
 		render: function render()
 		{
 			var color = (Rarities[this.props.rarity] || {}).color || this.props.color;
-			var style = stylePreset[this.props.type] || stylePreset.regular;
+            let styleKey = this.props.type;
+            if(this.props.variant === "Rush") {
+                styleKey = "rush";
+            }
+			var style = stylePreset[styleKey] || stylePreset.regular;
 
 			return React.createElement(
 				React.Fragment,

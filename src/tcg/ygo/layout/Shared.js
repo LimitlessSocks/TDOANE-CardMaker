@@ -1,8 +1,7 @@
-define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_template_normal(React, ReactClass, Image, Text)
-{
+define(["react", "react-class", "draw/Image", "draw/Text"],
+function ygo_template_normal(React, ReactClass, Image, Text) {
 	return ReactClass({
-		render: function render()
-		{
+		render: function render() {
 			var shared = {
 				canvas: this.props.canvas,
 				repaint: this.props.repaint
@@ -12,14 +11,14 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 				null,
 				// Draw the image first since the border might be transparent.
 				React.createElement(
-					Image, 
+					Image,
 					Object.assign({}, shared, {
-						src: this.props.image, 
+						src: this.props.image,
 						style: {
-							left: 50, 
-							top: 110, 
-							width: 320, 
-							height: 320 
+							left: 50,
+							top: 110,
+							width: 320,
+							height: 320
 						}
 					})
 				),
@@ -31,8 +30,8 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 						style: {
 							left:0,
 							top: 0,
-							width: 420,
-							height: 610
+							width: 421,
+							height: 614
 						}
 					})
 				),
@@ -60,7 +59,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontWeight: 600,
 							textAlign: "left",
 							whitespace: "nowrap",
-							
+
 							left: 32,
 							top: 24,
 							width: 315,
@@ -79,7 +78,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontWeight: 800,
 							textAlign: "left",
 							whitespace: "nowrap",
-							
+
 							left: 35,
 							top: 458,
 							width: 350,
@@ -95,7 +94,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontFamily: ["Buenard", "serif"],
 							fontSize: 12,
 							textAlign: "left",
-							
+
 							left: 35,
 							top: 474,
 							width: 350,
@@ -112,7 +111,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontSize: 16,
 							textAlign: "right",
 							whitespace: "nowrap",
-							
+
 							left: 260,
 							top: 552,
 							width: 40,
@@ -120,7 +119,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 						}
 					})
 				),
-				
+
 				React.createElement(
 					Text,
 					Object.assign({}, shared, {
@@ -130,7 +129,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontSize: 16,
 							textAlign: "right",
 							whitespace: "nowrap",
-							
+
 							left: 345,
 							top: 552,
 							width: 40,
@@ -138,7 +137,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 						}
 					})
 				),
-				
+
 				React.createElement(
 					Text,
 					Object.assign({}, shared, {
@@ -148,7 +147,7 @@ define(["react", "react-class", "draw/Image", "draw/Text"], function ygo_templat
 							fontSize: 12,
 							textAlign: "left",
 							whitespace: "nowrap",
-							
+
 							left: 20,
 							top: 580,
 							width: 150,

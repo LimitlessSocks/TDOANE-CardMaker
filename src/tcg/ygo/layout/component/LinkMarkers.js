@@ -4,51 +4,51 @@ define(["react", "react-class", "draw/Group", "draw/Image", "../../Resources"], 
 		regular: {
 			topLeft: {
 				top: 95,
-				left: 32,
-				width: 42,
-				height: 42
+				left: 30,
+				width: 43,
+				height: 43
 			},
 			topCenter: {
-				top: 86,
-				left:(420/2) - (72/2),
-				width:72,
-				height: 25
+				top: 88,
+				left: (420/2) - (97/2),
+				width: 97,
+				height: 24
 			},
 			topRight: {
 				top: 95,
-				left: 420 - 32 - 42,
-				width: 42,
-				height: 42
+				left: 420 - 30 - 43,
+				width: 43,
+				height: 43
 			},
 			middleLeft: {
-				top: 235,
-				left: 26,
-				width: 25,
-				height: 72
+				top: 223,
+				left: 24,
+				width: 24,
+				height: 97
 			},
 			middleRight: {
-				top: 235,
-				left: 420 - 26 -25,
-				width: 25,
-				height: 72
+				top: 223,
+				left: 420 - 24 - 24,
+				width: 24,
+				height: 97
 			},
 			bottomLeft: {
-				top: 402,
-				left: 32,
-				width: 42,
-				height: 42
+				top: 407,
+				left: 30,
+				width: 43,
+				height: 43
 			},
 			bottomCenter: {
-				top: 428,
-				left:(420/2) - (72/2),
-				width:72,
-				height: 25
+				top: 433,
+				left: (420/2) - (97/2),
+				width: 97,
+				height: 24
 			},
 			bottomRight: {
-				top: 402,
-				left: 420 - 32 - 42,
-				width: 42,
-				height: 42
+				top: 407,
+				left: 420 - 30 - 43,
+				width: 43,
+				height: 43
 			}
 		},
 		pendulum: {
@@ -65,7 +65,7 @@ define(["react", "react-class", "draw/Group", "draw/Image", "../../Resources"], 
 				height: 25
 			},
 			topRight: {
-				top: 95,
+				top: 94,
 				left: 420 - 16 - 42,
 				width: 42,
 				height: 42
@@ -100,7 +100,57 @@ define(["react", "react-class", "draw/Group", "draw/Image", "../../Resources"], 
 				width: 42,
 				height: 42
 			}
-		}
+		},
+        anime: {
+			topLeft: {
+				top: 0,
+				left: 0,
+				width: 43,
+				height: 43
+			},
+			topCenter: {
+				top: 0,
+				left: (420/2) - (97/2),
+				width: 97,
+				height: 24
+			},
+			topRight: {
+				top: 0,
+				left: 421 - 43,
+				width: 43,
+				height: 43
+			},
+			middleLeft: {
+				top: 182,
+				left: 0,
+				width: 24,
+				height: 97
+			},
+			middleRight: {
+				top: 182,
+				left: 421 - 24,
+				width: 24,
+				height: 97
+			},
+			bottomLeft: {
+				top: 418,
+				left: 0,
+				width: 43,
+				height: 43
+			},
+			bottomCenter: {
+				top: 437,
+				left: (420/2) - (97/2),
+				width: 97,
+				height: 24
+			},
+			bottomRight: {
+				top: 418,
+				left: 421 - 43,
+				width: 43,
+				height: 43
+			}
+        }
 	};
 
 	var path = Resources + "/tcg/ygo/marker";
@@ -110,7 +160,17 @@ define(["react", "react-class", "draw/Group", "draw/Image", "../../Resources"], 
 			var e = React.createElement;
 			var children = [];
 
-			var pos = positioning[this.props.pendulum ? "pendulum" : "regular"];
+			let property;
+            if(this.props.variant === "Anime") {
+                property = "anime";
+            }
+            else if(this.props.pendulum) {
+                property = "pendulum";
+            }
+            else {
+                property = "regular";
+            }
+            let pos = positioning[property];
 			for(var key in pos)
 			{
 				if (pos.hasOwnProperty(key) && this.props.hasOwnProperty(key))

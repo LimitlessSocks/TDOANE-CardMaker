@@ -4,49 +4,106 @@ define(["react", "react-class", "draw/Text"], function Effect(React, ReactClass,
 		Monster: {
 			fontFamily: ["Matrix Book", "Spectral", "serif"],
 
-			fontSize: 13,
+			fontSize: 18,
 			textAlign: "justify",
 
-			left: 35,
-			top: 475,
-			width: 350,
+			left: 30,
+			top: 478,
+			width: 360,
 			height: 75
 		},
 		Backrow: {
 			fontFamily: ["Matrix Book", "Spectral", "serif"],
 
-			fontSize: 13,
+			fontSize: 18,
 			textAlign: "justify",
 
-			left: 35,
-			top: 460,
-			width: 350,
+			left: 30,
+			top: 461,
+			width: 360,
 			height: 110
 		},
-		Vanilla: {
-			fontFamily: ["Amiri", "serif"],
-			fontStyle: "italic",
+        LargePendulumMonster: {
+			fontFamily: ["Matrix Book", "Spectral", "serif"],
 
-			fontSize: 13,
+			fontSize: 18,
 			textAlign: "justify",
 
-			left: 35,
-			top: 475,
-			width: 350,
+			left: 30,
+			top: 494,
+			width: 360,
+			height: 65,
+        },
+		Vanilla: {
+			fontFamily: ["Stone Serif Italic", "Amiri", "serif"],
+			fontStyle: "italic",
+            fontWeight: 400,
+			fontSize: 18,
+			textAlign: "justify",
+
+			left: 30,
+			top: 478,
+			width: 360,
 			height: 75
 		},
+        LargePendulumVanilla: {
+			fontFamily: ["Matrix Book", "Spectral", "serif"],
+
+			fontSize: 18,
+			textAlign: "justify",
+
+			left: 30,
+			top: 494,
+			width: 360,
+			height: 65,
+        },
 
 		Skill: {
 			fontFamily: ["Matrix Book", "Spectral", "serif"],
 
-			fontSize: 13,
+			fontSize: 18,
 			textAlign: "justify",
 
-			left: 35,
-			top: 475,
-			width: 350,
+			left: 30,
+			top: 478,
+			width: 360,
 			height: 95
 		},
+        RushMonster: {
+			fontFamily: ["Matrix Book", "Spectral", "serif"],
+
+			fontSize: 18,
+			textAlign: "justify",
+
+			left: 30,
+			top: 466,
+			width: 360,
+			height: 103,
+        },
+        // RushBackrow is the same as RushMonster
+        RushBackrow: {
+			fontFamily: ["Matrix Book", "Spectral", "serif"],
+
+			fontSize: 18,
+			textAlign: "justify",
+
+			left: 30,
+			top: 466,
+			width: 360,
+			height: 103,
+        },
+        RushVanilla: {
+			fontFamily: ["Stone Serif Italic", "Amiri", "serif"],
+			fontStyle: "italic",
+            fontWeight: 400,
+			fontSize: 18,
+			textAlign: "justify",
+
+			left: 30,
+			top: 466,
+			width: 360,
+			height: 103,
+        },
 	}
 
 	var Effect = ReactClass({

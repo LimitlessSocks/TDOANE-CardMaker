@@ -1,9 +1,67 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Open+Sans+Condensed:wght@700&display=swap');
+
+/* get the nice font-faces */
+@font-face {
+    font-family: 'Matrix Book';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/Yu-Gi-Oh! Matrix Book.ttf");
+    /* src: local('Yu-Gi-Oh! Matrix Book'), local('Matrix Book'), local('Matrix-Book'), url(ygopro.org/fonts/body.ttf) format('ttf'); */
+    /*unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;*/
+}
+@font-face {
+    font-family: 'Matrix Regular Small Caps';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/Matrix Regular Small Caps.ttf");
+}
+@font-face {
+    font-family: "Stone Serif Small Caps";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/Yu-Gi-Oh_ITC_Stone_Serif_Small_Caps_Bold.ttf");
+}
+@font-face {
+    font-family: "Stone Serif";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/StoneSerif.otf");
+}
+@font-face {
+    font-family: "YGODIY-Chinese";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/YGODIY-Chinese.ttf");
+}
+@font-face {
+    font-family: "Eurostile Candy W01";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("./fonts/Eurostile Candy W01 Regular.ttf");
+}
+@font-face {
+    font-family: "Eurostile Candy W01";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("./fonts/Eurostile Candy W01 Bold.ttf");
+}
+
 html, body
 {
 	/* Make absolute postioning take the full height. */
 	height: 100%;
+    background: #1e1d1d;
+    /* position: relative; */
+    font-family: "Open Sans";
 }
 
 body
@@ -33,6 +91,7 @@ body > header
 {
 	top: 0;
 	height: 3em;
+    font-family: "Eurostile Candy W01", "Consolas", monospace;
 }
 
 body > header > h1
@@ -60,6 +119,30 @@ input, textarea, label, select
 {
 	display: block;
 }
+input[type="text"], input[type="number"] {
+    height: 2.4em;
+}
+
+input[type="text"], input[type="number"], input[type="file"], select, textarea {
+    background-color: #111010;
+}
+
+fieldset, input, select, textarea {
+    border: 1px solid #2f4557;
+}
+
+.label-text, button {
+    font-family: "Open Sans Condensed";
+    font-weight: 700;
+    text-transform: uppercase;
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
 
 .editor, .live-preview
 {
@@ -67,42 +150,196 @@ input, textarea, label, select
 		padding: 10px;
 		top:0;
 		bottom: 0;
-		width: 50%;
 }
 
 .editor
 {
-	left: 50%;
+	left: 40%;
 	overflow: auto;
+    width: 60%;
 }
 .live-preview
 {
 	left: 0;
 	top:0;
 	overflow: hidden;
+    width: 40%;
 }
 
 .live-preview canvas,
 .live-preview image
 {
-		display: block;
-		max-width: 100%;
-		max-height: 100%;
-		margin: 0 auto;
-		box-shadow: 0 2px 4px #000;
+	display: block;
+	max-width: 100%;
+	max-height: 80%;
+	margin: 0 auto;
+	box-shadow: 0 2px 4px #000;
+}
+.live-preview .options {
+    /* margin: 20px; */
+}
+.live-preview .options td {
+    width: 50%;
+}
+.live-preview .options button {
+    width: 90%;
 }
 
+#effect-input {
+    /* font-family: "Matrix Book"; */
+}
 
-@media (max-width: 12cm)
+#serial-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+#serial-number {
+    display: inline-block;
+}
+#serial-randomize {
+    height: 2.4em;
+}
+
+#link-container {
+    width: 100px;
+}
+#link-container table {
+    background-color: #334488;
+    box-shadow: 0 0 10px 5px #334488;
+}
+#link-container tr {
+    text-align: center;
+}
+.ipsCustomInput input[type="checkbox"] + span::after {
+    position: static !important;
+}
+
+table {
+    width: 100%;
+}
+
+button {
+    border: 1px solid #375974;
+    cursor: pointer;
+    /* transition: box-shadow 100ms; */
+}
+button, header {
+    background: rgb(37,59,76);
+    background-image: linear-gradient(180deg, rgba(37,59,76,1) 0%, rgba(43,45,48,1) 100%);
+}
+button:hover {
+    background: #253c4e;
+    box-shadow: 0 0 20px #253c4e;
+}
+.live-preview button {
+    font-size: 1.2em;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.mintable {
+    width: auto;
+}
+.mintable td.pendulum-scale-holder {
+    width: 10ch;
+}
+
+.red-scale input {
+    background-image: url(../res/ui/dusk/red-scale.svg);
+    background-position: right 10% center;
+    background-size: 3ch;
+    background-repeat: no-repeat;
+}
+.blue-scale input {
+    background-image: url(../res/ui/dusk/blue-scale.svg);
+    background-position: left 10% center;
+    background-size: 3ch;
+    text-align: right;
+    background-repeat: no-repeat;
+}
+
+select[disabled] {
+    background-image: url(../res/ui/dusk/select-arrow-disabled.svg);
+    color: #555555;
+    font-style: italic;
+    cursor: not-allowed;
+}
+
+/*popup*/
+#popup-area {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#popup-content {
+    /* background: #333333; */
+    width: 400px;
+    text-align: center;
+    position: fixed;
+    border: 2px solid #375974;
+    background: rgb(37,59,76);
+    background-image: linear-gradient(180deg, rgba(37,59,76,1) 0%, rgba(43,45,48,1) 100%);
+    /* box-shadow: 0 0 20px -5px #96c4ed; */
+}
+#popup-close {
+    /* float: right; */
+    /* margin: 5px; */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.img-result {
+    display: inline-block;
+}
+
+.hidden, #popup-area.hidden {
+    display: none;
+}
+
+@media (max-width: 20cm)
 {
 	.live-preview,
 	.editor
 	{
 		width: 100%;
-		height: 50%;
 		left: 0;
 	}
-	
+    .live-preview {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+		height: 50%;
+    }
+    .editor {
+        height: 50%;
+    }
+
+    .live-preview .options, .live-preview canvas {
+        display: inline-block;
+        margin: 0;
+        /* width: auto; */
+    }
+    .live-preview canvas {
+    	max-height: 100%;
+    }
+    .live-preview .options {
+        width: 40%;
+    }
+
+    #popup-content {
+        width: 300px;
+    }
+
 	.editor { top: 50%; }
 	.live-preview { top:0; }
 }
