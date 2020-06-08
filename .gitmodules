@@ -1,9 +1,9 @@
 [submodule "lib/require"]
 	path = lib/require
 	url = https://github.com/requirejs/requirejs.git
-[submodule "lib/webfont"]
-	path = lib/webfont
-	url = https://github.com/typekit/webfontloader.git
 [submodule "lib/almond"]
 	path = lib/almond
 	url = https://github.com/requirejs/almond.git
+[submodule "lib/webfont"]
+	path = lib/webfont
+	url = https://github.com/typekit/webfontloader.git

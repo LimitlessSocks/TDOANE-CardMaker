@@ -17,12 +17,12 @@
   "keywords": [
     "tcg"
   ],
-  "author": "Yemachu",
+  "author": "Sock",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yemachu/cardmaker/issues"
+    "url": "https://github.com/LimitlessSocks/TDOANE-CardMaker/issues"
   },
-  "homepage": "https://github.com/yemachu/cardmaker#readme",
+  "homepage": "https://github.com/LimitlessSocks/TDOANE-CardMaker#readme",
   "dependencies": {
     "connect": "^3.7.0",
     "requirejs": "^2.3.6",
