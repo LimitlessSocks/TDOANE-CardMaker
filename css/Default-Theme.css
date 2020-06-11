@@ -235,6 +235,8 @@ select
 	background-position: right;
 	background-size: contain;
 	background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 

@@ -92,14 +92,24 @@ body > header
 	top: 0;
 	height: 3em;
     font-family: "Eurostile Candy W01", "Consolas", monospace;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
-body > header > h1
+body > header > *
 {
 	display: inline-block;
 	margin: 0;
-	font-size: 2em;
 	white-space: nowrap;
+}
+body > header > h1
+{
+	font-size: 2em;
+}
+body > header > h2
+{
+	font-weight: 400;
 }
 
 body > article
@@ -338,6 +348,11 @@ select[disabled] {
 
     #popup-content {
         width: 300px;
+    }
+
+    body > header > h2
+    {
+    	display: none;
     }
 
 	.editor { top: 50%; }

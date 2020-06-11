@@ -2354,30 +2354,36 @@ function Pendulum(React, ReactClass, Group, Text)
                 boxSize = this.props.boxSize;
             }
             let effectStyle = PendulumStyles[boxSize];
+            let groupElements = [
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.effect,
+                        style: effectStyle.effect
+                    }
+                ),
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.blue,
+                        style: effectStyle.blue
+                    }
+                ),
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.red,
+                        style: effectStyle.red
+                    }
+                )
+            ];
+            if(this.props.variant === "Anime") {
+                groupElements.shift();
+            }
 			return this.props.enabled ? React.createElement(
 				Group,
 				{ canvas: this.props.canvas, repaint: this.props.repaint },
-				React.createElement(
-					Text,
-					{
-						text: this.props.effect,
-						style: effectStyle.effect
-					}
-				),
-				React.createElement(
-					Text,
-					{
-						text: this.props.blue,
-						style: effectStyle.blue
-					}
-				),
-				React.createElement(
-					Text,
-					{
-						text: this.props.red,
-						style: effectStyle.red
-					}
-				)
+                ...groupElements
 			) : null;
 		}
 	});
@@ -4335,8 +4341,8 @@ function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, DarkSynchro, 
 		Trap: { value: "Trap", fn: Trap },
 		Skill: { value: "Skill", fn: Skill },
 		DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
-		Epoch: { value: "Epoch", name: "Epoch", fn: Epoch },
-		Warp: { value: "Warp", name: "Warp", fn: Warp },
+		Epoch: { value: "Epoch", name: "Bigbang", fn: Epoch },
+		Warp: { value: "Warp", name: "Time Leap", fn: Warp },
 		Unity: { value: "Unity", fn: Unity },
 		Rainbow: { value: "Rainbow", fn: Rainbow },
 	};
@@ -4432,8 +4438,8 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         effect: "",
         atk: "",
         def: "",
-        serial: "This card cannot be used in a Duel.",
-        copyright: "© 2020 Sock",
+        serial: "0123456789",
+        copyright: "© 2020 YGOPRO.ORG",
         id: "",
         attribute: "None",
         pendulum:
@@ -4446,9 +4452,6 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             boxSizeEnabled: false,
         },
         variant: "Normal",
-        // anime: {
-        //     enabled: false,
-        // },
         link:
         {
             topLeft: false,
@@ -4482,18 +4485,18 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     version: "1.0.0",
                     name: "Custom Card",
                     level: 4,
-                    type: "Cyberse/Pendulum/Effect",
+                    type: "Cyberse/Effect",
                     icon: "None",
                     effect: "A modern card designer.",
                     atk: "0",
                     def: "0",
-                    serial: "This card cannot be used in a Duel.",
-                    copyright: "© 2020 Sock",
+                    serial: "0123456789",
+                    copyright: "© 2020 YGOPRO.ORG",
                     attribute: "None",
                     id: "SCK-000",
                     pendulum:
                     {
-                        enabled: true,
+                        enabled: false,
                         effect: "",
                         blue: "5",
                         red: "5",
@@ -4598,10 +4601,6 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 if(classRejects.length) {
                     passesReject = classRejects.every(toReject => acceptClasses.indexOf(toReject) === -1);
                 }
-                // console.log(card.textContent);
-                // console.log(classList);
-                // console.log(acceptClasses, classRejects);
-                // console.log(accept, passesReject);
 
                 if(accept && passesReject) {
                     card.style.display = "";
@@ -4674,6 +4673,10 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 hasPendulum = true;
             }
 
+            if(!hasPendulum) {
+                this.state.card.pendulum.enabled = false;
+            }
+
             let e = React.createElement;
             let labelText = (text) => e("span", { className: "label-text" }, text);
 
@@ -4690,11 +4693,11 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     e("table", { className: "options" },
                         e("tr", null,
                             e("td", null, e("button", { onClick: this.create, className: "ipsButton ipsButton_primary"}, "New Card")),
-                            e("td", null, e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save JSON")),
+                            e("td", null, e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save Card")),
                         ),
                         e("tr", null,
                             e("td", null, e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As")),
-                            e("td", null, e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load JSON")),
+                            e("td", null, e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card")),
                         )
                     )
                 ),
@@ -4810,7 +4813,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                         e("label", { class: "filter not-if-anime" }, labelText("Effect"), e("textarea", { onChange: this.updateField("card.pendulum.effect"), type: "text", value: this.state.card.pendulum.effect })),
                     ),
 
-                    e("pre", { "className": "special" }, "∞\n", "☆\n", "●\n", "©\n", "™\n"),
+                    e("pre", { "className": "special" }, "∞ ☆ ● © ™"),
 
                     e("button", { onClick: this.credits }, "Credits"),
                 ),
@@ -4830,16 +4833,33 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         },
         credits: function credits() {
             let body = document.createElement("div");
-            body.appendChild(document.createTextNode(
-                "This application was commisioned by Seto Kaiba, developer of YGOPRO TDOANE. The applciation was programmed by Sock#3222. The development cycle was headed by Soaring__Sky#1313. If you have any questions or feedback, check out the "
-            ));
-            let a = document.createElement("a");
-            a.appendChild(
-                document.createTextNode("GitHub Repository")
-            );
-            a.target = "_blank";
-            a.href = "https://github.com/LimitlessSocks/TDOANE-CardMaker";
-            body.appendChild(a);
+            let toParse = [
+                ["Commissioned by:", "Seto Kaiba", "https://github.com/realSetoKaiba"],
+                ["Programmed by:", "Sock#3222", "https://github.com/LimitlessSocks"],
+                ["Management lead:", "Soaring__Sky#3222", "https://github.com/SoaringSky"],
+                ["Rush Duel Templates by:", "alixsep", "https://www.deviantart.com/alixsep"],
+                ["Derived from:", "Yemachu Cardmaker", "https://github.com/Yemachu/cardmaker"],
+            ];
+            for(let [intro, name, href] of toParse) {
+                let a = document.createElement("a");
+                a.href = href;
+                a.target = "_blank";
+                a.appendChild(document.createTextNode(name));
+                let p = document.createElement("p");
+                p.appendChild(document.createTextNode(intro + " "));
+                p.appendChild(a);
+                body.appendChild(p);
+            }
+            // body.appendChild(document.createTextNode(
+                // "This application was commisioned by Seto Kaiba, developer of YGOPRO TDOANE. The applciation was programmed by Sock#3222. The development cycle was headed by Soaring__Sky#1313. If you have any questions or feedback, check out the "
+            // ));
+            // let a = document.createElement("a");
+            // a.appendChild(
+            //     document.createTextNode("GitHub Repository")
+            // );
+            // a.target = "_blank";
+            // a.href = "https://github.com/LimitlessSocks/TDOANE-CardMaker";
+            // body.appendChild(a);
             this.popup("Credits", body);
         },
         create: function create()

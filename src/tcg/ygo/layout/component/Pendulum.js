@@ -154,30 +154,36 @@ function Pendulum(React, ReactClass, Group, Text)
                 boxSize = this.props.boxSize;
             }
             let effectStyle = PendulumStyles[boxSize];
+            let groupElements = [
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.effect,
+                        style: effectStyle.effect
+                    }
+                ),
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.blue,
+                        style: effectStyle.blue
+                    }
+                ),
+                React.createElement(
+                    Text,
+                    {
+                        text: this.props.red,
+                        style: effectStyle.red
+                    }
+                )
+            ];
+            if(this.props.variant === "Anime") {
+                groupElements.shift();
+            }
 			return this.props.enabled ? React.createElement(
 				Group,
 				{ canvas: this.props.canvas, repaint: this.props.repaint },
-				React.createElement(
-					Text,
-					{
-						text: this.props.effect,
-						style: effectStyle.effect
-					}
-				),
-				React.createElement(
-					Text,
-					{
-						text: this.props.blue,
-						style: effectStyle.blue
-					}
-				),
-				React.createElement(
-					Text,
-					{
-						text: this.props.red,
-						style: effectStyle.red
-					}
-				)
+                ...groupElements
 			) : null;
 		}
 	});
