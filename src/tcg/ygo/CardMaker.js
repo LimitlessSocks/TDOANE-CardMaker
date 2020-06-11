@@ -251,7 +251,6 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 hasPendulum = true;
             }
 
-
             let e = React.createElement;
             let labelText = (text) => e("span", { className: "label-text" }, text);
 
@@ -318,14 +317,6 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                             e("td", null, e("label", null, labelText("Effect"), e("textarea", { id: "effect-input", onChange: this.updateField("card.effect"), value: this.state.card.effect }))),
                         ),
                     )),
-
-                    // e(
-                    //     "legend",
-                    //     null,
-                    //     e(Checkbox, { id: "ccm_ygo:anime.enabled", onChange: function(e){this.updateField("card.anime.enabled")({target: {value: e.target.checked}});}.bind(this), type: "checkbox", checked: this.state.card.anime.enabled }),
-                    //     e("label", { htmlFor: "ccm_ygo:anime.enabled"}, "Anime Version" )
-                    // ),
-
 
                     // link
                     e(
@@ -396,7 +387,9 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                         e("label", { class: "filter not-if-anime" }, labelText("Effect"), e("textarea", { onChange: this.updateField("card.pendulum.effect"), type: "text", value: this.state.card.pendulum.effect })),
                     ),
 
-                    e("pre", { "className": "special" }, "∞\n", "☆\n", "●\n", "©\n", "™\n")
+                    e("pre", { "className": "special" }, "∞\n", "☆\n", "●\n", "©\n", "™\n"),
+
+                    e("button", { onClick: this.credits }, "Credits"),
                 ),
                 // popup
                 e("div", { id: "popup-area", class: "hidden", onClick: (e) => e.target === e.currentTarget && this.closePopup() },
@@ -411,6 +404,20 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             this.updateLayoutInputs(null, result);
 
             return result;
+        },
+        credits: function credits() {
+            let body = document.createElement("div");
+            body.appendChild(document.createTextNode(
+                "This application was commisioned by Seto Kaiba, developer of YGOPRO TDOANE. The applciation was programmed by Sock#3222. The development cycle was headed by Soaring__Sky#1313. If you have any questions or feedback, check out the "
+            ));
+            let a = document.createElement("a");
+            a.appendChild(
+                document.createTextNode("GitHub Repository")
+            );
+            a.target = "_blank";
+            a.href = "https://github.com/LimitlessSocks/TDOANE-CardMaker";
+            body.appendChild(a);
+            this.popup("Credits", body);
         },
         create: function create()
         {

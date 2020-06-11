@@ -15,7 +15,7 @@ There are multiple reasons thinkable to work on this project, though it will mos
 
 Some people might want custom templates for certain trading card games. While amiable, they won't be accepted for this project; it could quickly grow out of hand. Though feel free to create a derivate in such a case.
 
-### Other stuf
+### Other stuff
 Since the site works with mostly static content, it should be possible to test it by simply opening it in the browser from the filesystem. There however is no guarantee everything will work as expected. It is advised that anyone who wishes to work on (a derivative of) the application installs a server on their device for development. [NGINX](https://nginx.org/) was used for the development.
 
 ### Cloning the project
