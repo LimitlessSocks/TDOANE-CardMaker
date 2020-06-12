@@ -4,7 +4,6 @@ function App(React, ReactClass, Canvas, Layouts, Kind, Attributes, Stars, Icons,
 	var Card = ReactClass({
 		render: function render()
 		{
-            // console.log("Card??", this.props);
 			return React.createElement(
 				Canvas,
 				{
@@ -37,6 +36,5 @@ function App(React, ReactClass, Canvas, Layouts, Kind, Attributes, Stars, Icons,
         "Anime": "Anime",
         "Rush": "Rush",
     };
-    // Card.BoxSizes = BoxSizes
 	return Card;
 });
