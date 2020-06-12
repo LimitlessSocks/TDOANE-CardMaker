@@ -4946,8 +4946,8 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             let CardBorders = {
                 2: "Spell",
                 4: "Trap",
-                64: "Fusion",
                 128: "Ritual",
+                64: "Fusion",
                 8192: "Synchro",
                 16384: "Token",
                 8388608: "Xyz",
@@ -5030,6 +5030,9 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             for(let [mask, resBorder] of Object.entries(CardBorders)) {
                 if(entry.type & mask) {
                     border = resBorder;
+                    if(mask <= 4) {
+                        break;
+                    }
                 }
             }
             result.layout = border || result.layout;
@@ -5070,7 +5073,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     typeNames.push("Effect");
                 }
                 result.type = typeNames.join("/");
-                result.attribute = MonsterAttributes[entry.attribute];
+                result.attribute = MonsterAttributes[entry.attribute] || "None";
 
                 if(result.layout === "Link") {
                     result.def = result.level;
@@ -5121,7 +5124,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     let pause = EL("button", null, "Pause");
                     let finish = EL("button", null, "Finish Now");
                     let body = EL("div", null, next, pause, finish, EL("div", null, count + "/" + total));
-                    
+
                     let popupBody = () => this.popup("Ready?", body);
 
                     next.addEventListener("click", function () {
@@ -5134,6 +5137,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                         let resume = EL("button", null, "Resume Processing");
                         let parent = document.getElementsByClassName("editor")[0];
                         parent.appendChild(resume);
+                        this.closePopup();
                         resume.addEventListener("click", function () {
                             parent.removeChild(resume);
                             popupBody();

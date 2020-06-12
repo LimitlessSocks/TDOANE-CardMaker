@@ -498,8 +498,8 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             let CardBorders = {
                 2: "Spell",
                 4: "Trap",
-                64: "Fusion",
                 128: "Ritual",
+                64: "Fusion",
                 8192: "Synchro",
                 16384: "Token",
                 8388608: "Xyz",
@@ -582,6 +582,9 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             for(let [mask, resBorder] of Object.entries(CardBorders)) {
                 if(entry.type & mask) {
                     border = resBorder;
+                    if(mask <= 4) {
+                        break;
+                    }
                 }
             }
             result.layout = border || result.layout;
@@ -622,7 +625,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                     typeNames.push("Effect");
                 }
                 result.type = typeNames.join("/");
-                result.attribute = MonsterAttributes[entry.attribute];
+                result.attribute = MonsterAttributes[entry.attribute] || "None";
 
                 if(result.layout === "Link") {
                     result.def = result.level;
