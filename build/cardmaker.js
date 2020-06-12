@@ -3474,16 +3474,21 @@ function Epoch(React, ReactClass, Group, Kind, C) {
 				Group,
 				this.props,
 				React.createElement(C.Image, {
-					value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity
+					value: this.props.image,
+                    pendulum: this.props.pendulum.enabled,
+                    rarity: this.props.rarity
 				}),
 				// React.createElement(C.Border, {
 	            //     value: "Epoch", pendulum: this.props.pendulum.enabled
 				// }),
 				React.createElement(C.Border, {
-					value: "Epoch", pendulum: false
+					value: "Epoch",
+                    pendulum: false
 				}),
 				React.createElement(C.CardName, {
-					value: this.props.name, color: "white", rarity: this.props.rarity
+					value: this.props.name,
+                    color: "white",
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Attribute, {
 					value: this.props.attribute
@@ -3511,7 +3516,9 @@ function Epoch(React, ReactClass, Group, Kind, C) {
 					value: this.props.serial, color: "white"
 				}),
 				React.createElement(C.Id, {
-					value: this.props.id, position: this.props.pendulum.enabled ? "pendulum" : "regular", color: "white"
+					value: this.props.id,
+                    position: this.props.pendulum.enabled ? "pendulum" : "regular",
+                    color: "white"
 				}),
 				React.createElement(C.Copyright, {
 					value: this.props.copyright, color: "white"
@@ -3541,22 +3548,28 @@ function Synchro(React, ReactClass, Group, Kind, C) {
 				Group,
 				this.props,
 				React.createElement(C.Image, {
-					value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity
+					value: this.props.image,
+                    pendulum: this.props.pendulum.enabled,
+                    rarity: this.props.rarity
 				}),
 				// React.createElement(C.Border, {
 				//          value: "Warp", pendulum: this.props.pendulum.enabled
 				// }),
 				React.createElement(C.Border, {
-					value: "Warp", pendulum: false
+					value: "Warp",
+                    pendulum: false
 				}),
 				React.createElement(C.CardName, {
-					value: this.props.name, color: "white", rarity: this.props.rarity
+					value: this.props.name,
+                    color: "white",
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Attribute, {
 					value: this.props.attribute
 				}),
 				React.createElement(C.Level, {
-					value: -this.props.level, star: "Galaxy"
+					value: -this.props.level,
+                    star: "Galaxy"
 				}),
 
 				React.createElement(C.Pendulum, this.props.pendulum),
@@ -3578,10 +3591,13 @@ function Synchro(React, ReactClass, Group, Kind, C) {
 					value: this.props.serial, color: "white"
 				}),
 				React.createElement(C.Id, {
-					value: this.props.id, position: this.props.pendulum.enabled ? "pendulum" : "regular", color: "white"
+					value: this.props.id,
+                    position: this.props.pendulum.enabled ? "pendulum" : "regular",
+                    color: "white"
 				}),
 				React.createElement(C.Copyright, {
-					value: this.props.copyright, color: "white"
+					value: this.props.copyright,
+                    color: "white"
 				}),
 
                 React.createElement(C.CardHolo, {
@@ -3608,13 +3624,17 @@ function Unity(React, ReactClass, Group, Kind, C) {
 				Group,
 				this.props,
 				React.createElement(C.Image, {
-					value: this.props.image, pendulum: true, rarity: this.props.rarity
+					value: this.props.image,
+                    pendulum: true,
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Border, {
-                    value: "Unity", pendulum: { enabled: true }
+                    value: "Unity",
+                    pendulum: { enabled: true }
                 }),
 				React.createElement(C.CardName, {
-					value: this.props.name, rarity: this.props.rarity
+					value: this.props.name,
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Attribute, {
 					value: this.props.attribute
@@ -3644,7 +3664,8 @@ function Unity(React, ReactClass, Group, Kind, C) {
 					value: this.props.serial
 				}),
 				React.createElement(C.Id, {
-					value: this.props.id, position: "pendulum"
+					value: this.props.id,
+                    position: "pendulum"
 				}),
 				React.createElement(C.Copyright, {
 					value: this.props.copyright
@@ -4354,7 +4375,6 @@ function App(React, ReactClass, Canvas, Layouts, Kind, Attributes, Stars, Icons,
 	var Card = ReactClass({
 		render: function render()
 		{
-            // console.log("Card??", this.props);
 			return React.createElement(
 				Canvas,
 				{
@@ -4387,7 +4407,6 @@ function App(React, ReactClass, Canvas, Layouts, Kind, Attributes, Stars, Icons,
         "Anime": "Anime",
         "Rush": "Rush",
     };
-    // Card.BoxSizes = BoxSizes
 	return Card;
 });
 
@@ -4465,6 +4484,40 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         },
         layout: "Normal"
     }
+
+    const EL = (tag, data, ...children) => {
+        let result = document.createElement(tag);
+        if(data) {
+            Object.assign(result, data);
+        }
+        for(let child of children.map(EL.forceElement)) {
+            result.appendChild(child);
+        }
+        return result;
+    };
+    EL.text = document.createTextNode.bind(document);
+    EL.forceElement = (el) =>
+        typeof el === "string"
+            ? EL.text(el)
+            : el;
+    EL.removeClasses = (el) => {
+        let toRemove;
+        let didRemove = false;
+        while(toRemove = el.classList[0]) {
+            el.classList.remove(toRemove);
+            didRemove = true;
+        }
+        return didRemove;
+    };
+
+    const loadScript = function (url, cb) {
+        let scriptElement = document.createElement("script");
+        scriptElement.src = url;
+        if(cb) {
+            scriptElement.addEventListener("load", cb);
+        }
+        document.head.appendChild(scriptElement);
+    };
 
     var CardMakerApp = ReactClass({
 
@@ -4680,6 +4733,8 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             let e = React.createElement;
             let labelText = (text) => e("span", { className: "label-text" }, text);
 
+            // let reactCard = e(Card, this.state.card);
+            // console.log(reactCard);
             let result = e(
                 "div",
                 {
@@ -4688,6 +4743,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 e(
                     "div",
                     { className: "live-preview" },
+                    // reactCard,
                     e(Card, this.state.card),
 
                     e("table", { className: "options" },
@@ -4816,6 +4872,8 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     e("pre", { "className": "special" }, "∞ ☆ ● © ™"),
 
                     e("button", { onClick: this.credits }, "Credits"),
+
+                    e("button", { onClick: this.developer }, "Developer Features"),
                 ),
                 // popup
                 e("div", { id: "popup-area", class: "hidden", onClick: (e) => e.target === e.currentTarget && this.closePopup() },
@@ -4831,6 +4889,288 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
 
             return result;
         },
+        developer: function developer() {
+            let options = [
+                ["Process image database", "processDatabaseCreate"],
+                ["Log image data", "logImageData"]
+            ];
+            let body = EL("div");
+            for(let [tag, operation] of options) {
+                let button = EL("button");
+                button.appendChild(EL.text(tag));
+                button.addEventListener("click", () => {
+                    this[operation]();
+                });
+                body.appendChild(button);
+            }
+            this.popup("Developer Features", body);
+        },
+        logImageData: function logImageData() {
+            console.log(this.state.card);
+        },
+        processDatabaseCreate: function processDatabaseCreate(loaded = false) {
+            if(!loaded) {
+                return loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js",
+                    () => this.processDatabaseCreate(true)
+                );
+            }
+            let imageInput = EL("input", { type: "file", accept: ".zip" });
+            let cardDatabaseInput = EL("input", { type: "file", accept: ".json" });
+            let submit = EL("button", null, "Submit");
+            let body = EL("div", null,
+                "Image Repository (.zip):",
+                imageInput,
+                "Card Database (.json, Dueling Nexus format):",
+                cardDatabaseInput,
+                submit,
+            );
+            submit.addEventListener("click", () => {
+                JSZip.loadAsync(imageInput.files[0])
+                .then((zipFile) => {
+                    let reader = new FileReader();
+                    reader.readAsText(cardDatabaseInput.files[0], "UTF-8");
+                    reader.onload = (evt) => {
+                        let json = JSON.parse(evt.target.result);
+                        this.processDatabase(json, zipFile);
+                    };
+                });
+            });
+            this.popup("Process Database", body, "wide");
+        },
+        convertEntry: function (entry) {
+            // TODO: pendulums
+            let getStat = (stat) =>
+                stat === -2
+                    ? "?"
+                    : stat.toString();
+            let CardBorders = {
+                2: "Spell",
+                4: "Trap",
+                64: "Fusion",
+                128: "Ritual",
+                8192: "Synchro",
+                16384: "Token",
+                8388608: "Xyz",
+                67108864: "Link",
+                16: "Normal",
+                32: "Effect",
+            };
+            let MonsterTypes = {
+                1: "Warrior",
+                2: "Spellcaster",
+                4: "Fairy",
+                8: "Fiend",
+                16: "Zombie",
+                32: "Machine",
+                64: "Aqua",
+                128: "Pyro",
+                256: "Rock",
+                512: "Winged Beast",
+                1024: "Plant",
+                2048: "Insect",
+                4096: "Thunder",
+                8192: "Dragon",
+                16384: "Beast",
+                32768: "Beast-Warrior",
+                65536: "Dinosaur",
+                131072: "Fish",
+                262144: "Sea Serpent",
+                524288: "Reptile",
+                1048576: "Psychic",
+                2097152: "Divine-Beast",
+                4194304: "Creator God",
+                8388608: "Wyrm",
+                16777216: "Cyberse",
+            };
+            let MonsterAttributes = {
+                1: "Earth",
+                2: "Water",
+                4: "Fire",
+                8: "Wind",
+                16: "Light",
+                32: "Dark",
+                64: "Divine",
+            };
+            let SpellTrapIcons = {
+                128: "Ritual",
+                65536: "Quick-play",
+                131072: "Continuous",
+                262144: "Equip",
+                524288: "Field",
+                1048576: "Counter",
+            };
+            const LinkArrowMeanings = {
+                [0b000000001]: "bottomLeft",
+                [0b000000010]: "bottomCenter",
+                [0b000000100]: "bottomRight",
+                [0b000001000]: "middleLeft",
+                [0b000100000]: "middleRight",
+                [0b001000000]: "topLeft",
+                [0b010000000]: "topCenter",
+                [0b100000000]: "topRight",
+            };
+            const blankPendulum = {
+                enabled: false,
+                blue: "5",
+                red: "5",
+                effect: "",
+                boxSize: "Normal",
+            };
+
+            let result = {};
+
+            result.pendulum = blankPendulum;
+
+            result.name = entry.name;
+            result.effect = entry.description;
+            result.atk = getStat(entry.attack);
+            result.def = getStat(entry.defence);
+            result.level = entry.level.toString();
+            let border;
+            for(let [mask, resBorder] of Object.entries(CardBorders)) {
+                if(entry.type & mask) {
+                    border = resBorder;
+                }
+            }
+            result.layout = border || result.layout;
+            result.serial = entry.id.toString();
+            if(entry.type & 1) {
+                // if it is a monster
+                let typeNames = [];
+                let monsterType = MonsterTypes[entry.race];
+                typeNames.push(monsterType);
+                if(entry.type & 2097152) {
+                    typeNames.push("Flip");
+                }
+                typeNames.push(result.layout);
+
+                if(entry.type & 16777216) {
+                    let [ pend, regular ] = result.effect
+                        .replace(/\[ \w+ Effect \]/g, "")
+                        .split(/-{4,}/)
+                        .map(e => e.trim());
+
+                    // console.log(regular, pend, result.effect);
+
+                    result.effect = regular;
+                    result.pendulum = {
+                        enabled: true,
+                        blue: entry.lscale.toString(),
+                        red: entry.rscale.toString(),
+                        effect: pend,
+                        boxSize: "Normal",
+                    };
+                    if(pend.length <= 150) {
+                        result.pendulum.boxSize = "Small";
+                    }
+                    typeNames.push("Pendulum");
+                }
+
+                if(result.layout !== "Effect" && result.layout !== "Normal") {
+                    typeNames.push("Effect");
+                }
+                result.type = typeNames.join("/");
+                result.attribute = MonsterAttributes[entry.attribute];
+
+                if(result.layout === "Link") {
+                    result.def = result.level;
+                    result.link = {};
+                    for(let i = 256; i >= 1; i >>= 1) {
+                        result.link[LinkArrowMeanings[i]] = !!(entry.defence & i);
+                    }
+                }
+            }
+            else {
+                result.attribute = result.layout;
+                result.type = result.layout + " Card";
+                result.icon = "None";
+                for(let [mask, resIcon] of Object.entries(SpellTrapIcons)) {
+                    if(entry.type & mask) {
+                        result.icon = resIcon;
+                        break;
+                    }
+                }
+            }
+            return result;
+        },
+        processDatabase: async function processDatabase(json, zipFile) {
+            let outZip = new JSZip();
+            let imageFiles = zipFile.file(/.*/);
+            let count = 0;
+            let total = imageFiles.length;
+            for(let image of imageFiles) {
+                let newState = {};
+                // overhead parsing
+                let base = image.name.split(/[\/\\]/).pop().split(".");
+                let ext = base.pop();
+                base = base.join(".");
+                // get URL
+                let arr = await image.async("base64");
+                let type = "image/" + ext;
+                let url = "data:" + type + ";base64," + arr;
+                newState.image = url;
+                // get data
+                let entry = json[base];
+
+                Object.assign(newState, this.convertEntry(entry));
+                // update state
+                this.setState({ card: Object.assign({}, this.state.card, newState)});
+                let status = await new Promise((resolve, reject) => {
+                    count++;
+                    let next = EL("button", null, "Next");
+                    let pause = EL("button", null, "Pause");
+                    let finish = EL("button", null, "Finish Now");
+                    let body = EL("div", null, next, pause, finish, EL("div", null, count + "/" + total));
+                    
+                    let popupBody = () => this.popup("Ready?", body);
+
+                    next.addEventListener("click", function () {
+                        resolve(true);
+                    });
+                    finish.addEventListener("click", function () {
+                        resolve(false);
+                    });
+                    pause.addEventListener("click", function () {
+                        let resume = EL("button", null, "Resume Processing");
+                        let parent = document.getElementsByClassName("editor")[0];
+                        parent.appendChild(resume);
+                        resume.addEventListener("click", function () {
+                            parent.removeChild(resume);
+                            popupBody();
+                        });
+                    });
+                    popupBody();
+                });
+                let toExport = this.getDataURL("JPG");
+                toExport = toExport.replace(/data:.*?;base64,/, "");
+
+                outZip.file(base + ".jpg", toExport, { base64: true });
+                this.closePopup();
+                if(!status) {
+                    break;
+                }
+            }
+            this.popup("Zip File Generating", "Please wait, zip generating.");
+            outZip.generateAsync({ type: "blob" }).then(blob => {
+                let filename = "cardImages.zip";
+                if (window.navigator.msSaveOrOpenBlob) // IE10+
+                    window.navigator.msSaveOrOpenBlob(blob, filename);
+                else { // Others
+                    var a = document.createElement("a"),
+                            url = URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                        this.popup("Zip File Generated", "Please accept the file download");
+                    }, 0);
+                }
+            });
+
+        },
         credits: function credits() {
             let body = document.createElement("div");
             let toParse = [
@@ -4841,25 +5181,13 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 ["Derived from:", "Yemachu Cardmaker", "https://github.com/Yemachu/cardmaker"],
             ];
             for(let [intro, name, href] of toParse) {
-                let a = document.createElement("a");
-                a.href = href;
-                a.target = "_blank";
-                a.appendChild(document.createTextNode(name));
-                let p = document.createElement("p");
-                p.appendChild(document.createTextNode(intro + " "));
-                p.appendChild(a);
-                body.appendChild(p);
+                let linkBody = EL("p", null,
+                    intro,
+                    " ",
+                    EL("a", { href: href, target: "_blank" }, name)
+                );
+                body.appendChild(linkBody);
             }
-            // body.appendChild(document.createTextNode(
-                // "This application was commisioned by Seto Kaiba, developer of YGOPRO TDOANE. The applciation was programmed by Sock#3222. The development cycle was headed by Soaring__Sky#1313. If you have any questions or feedback, check out the "
-            // ));
-            // let a = document.createElement("a");
-            // a.appendChild(
-            //     document.createTextNode("GitHub Repository")
-            // );
-            // a.target = "_blank";
-            // a.href = "https://github.com/LimitlessSocks/TDOANE-CardMaker";
-            // body.appendChild(a);
             this.popup("Credits", body);
         },
         create: function create()
@@ -4884,7 +5212,9 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             }
         },
 
-        popup: function (title, body) {
+        // available styles: "default", "wide"
+        popup: function (title, body, style="default") {
+            body = EL.forceElement(body);
             let clearChildren = function (...nodes) {
                 for(let node of nodes) {
                     while(node.firstChild) {
@@ -4892,8 +5222,11 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     }
                 }
             };
+            let popup = document.getElementById("popup-content");
+            EL.removeClasses(popup);
+            popup.classList.add(style);
+
             let popupArea = document.getElementById("popup-area");
-            // let popup = document.getElementById("popup-content");
             let header = document.getElementById("popup-header");
             let text = document.getElementById("popup-text");
             clearChildren(header, text);
@@ -4907,41 +5240,47 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             popupArea.classList.add("hidden");
         },
 
+        getDataURL: function getDataURL(ext = "PNG") {
+            let canvas = document.getElementsByTagName("canvas")[0];
+            let dataURL;
+            switch(ext) {
+                case "PNG":
+                    dataURL = canvas.toDataURL();
+                    break;
+                case "JPGHIGH":
+                    dataURL = canvas.toDataURL("image/jpeg", 1.0);
+                    break;
+                case "JPG":
+                    dataURL = canvas.toDataURL("image/jpeg");
+                    break;
+                case "JPGLOW":
+                    dataURL = canvas.toDataURL("image/jpeg", 0.5);
+                    break;
+            }
+            return dataURL;
+        },
+
         exportAs: function (ext) {
             return (ev) => {
-                let canvas = document.getElementsByTagName("canvas")[0];
-                let dataURL;
-                switch(ext) {
-                    case "PNG":
-                        dataURL = canvas.toDataURL();
-                        break;
-                    case "JPGHIGH":
-                        dataURL = canvas.toDataURL("image/jpeg", 1.0);
-                        break;
-                    case "JPG":
-                        dataURL = canvas.toDataURL("image/jpeg");
-                        break;
-                    case "JPGLOW":
-                        dataURL = canvas.toDataURL("image/jpeg", 0.5);
-                        break;
+                let dataURL = this.getDataURL(ext);
+                if(!dataURL) {
+                    return;
                 }
-                if(dataURL) {
-                    let img = document.createElement("img");
-                    img.className = "img-result";
-                    img.src = dataURL;
-                    img.width = "250";
-                    img.addEventListener("click", function () {
-                        window.open(dataURL, "_blank");
-                    });
-                    let divHolder = document.createElement("div");
-                    divHolder.appendChild(img);
-                    let message2 = document.createElement("div");
-                    message2.appendChild(
-                        document.createTextNode("Click or tap the picture to download!")
-                    );
-                    divHolder.appendChild(message2);
-                    this.popup("Result", divHolder);
-                }
+                let img = document.createElement("img");
+                img.className = "img-result";
+                img.src = dataURL;
+                img.width = "250";
+                img.addEventListener("click", function () {
+                    window.open(dataURL, "_blank");
+                });
+                let divHolder = document.createElement("div");
+                divHolder.appendChild(img);
+                let message2 = document.createElement("div");
+                message2.appendChild(
+                    document.createTextNode("Click or tap the picture to download!")
+                );
+                divHolder.appendChild(message2);
+                this.popup("Result", divHolder);
             };
         },
 
