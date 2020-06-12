@@ -8,16 +8,21 @@ function Epoch(React, ReactClass, Group, Kind, C) {
 				Group,
 				this.props,
 				React.createElement(C.Image, {
-					value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity
+					value: this.props.image,
+                    pendulum: this.props.pendulum.enabled,
+                    rarity: this.props.rarity
 				}),
 				// React.createElement(C.Border, {
 	            //     value: "Epoch", pendulum: this.props.pendulum.enabled
 				// }),
 				React.createElement(C.Border, {
-					value: "Epoch", pendulum: false
+					value: "Epoch",
+                    pendulum: false
 				}),
 				React.createElement(C.CardName, {
-					value: this.props.name, color: "white", rarity: this.props.rarity
+					value: this.props.name,
+                    color: "white",
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Attribute, {
 					value: this.props.attribute
@@ -45,7 +50,9 @@ function Epoch(React, ReactClass, Group, Kind, C) {
 					value: this.props.serial, color: "white"
 				}),
 				React.createElement(C.Id, {
-					value: this.props.id, position: this.props.pendulum.enabled ? "pendulum" : "regular", color: "white"
+					value: this.props.id,
+                    position: this.props.pendulum.enabled ? "pendulum" : "regular",
+                    color: "white"
 				}),
 				React.createElement(C.Copyright, {
 					value: this.props.copyright, color: "white"

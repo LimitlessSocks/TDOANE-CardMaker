@@ -7,13 +7,17 @@ function Unity(React, ReactClass, Group, Kind, C) {
 				Group,
 				this.props,
 				React.createElement(C.Image, {
-					value: this.props.image, pendulum: true, rarity: this.props.rarity
+					value: this.props.image,
+                    pendulum: true,
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Border, {
-                    value: "Unity", pendulum: { enabled: true }
+                    value: "Unity",
+                    pendulum: { enabled: true }
                 }),
 				React.createElement(C.CardName, {
-					value: this.props.name, rarity: this.props.rarity
+					value: this.props.name,
+                    rarity: this.props.rarity
 				}),
 				React.createElement(C.Attribute, {
 					value: this.props.attribute
@@ -43,7 +47,8 @@ function Unity(React, ReactClass, Group, Kind, C) {
 					value: this.props.serial
 				}),
 				React.createElement(C.Id, {
-					value: this.props.id, position: "pendulum"
+					value: this.props.id,
+                    position: "pendulum"
 				}),
 				React.createElement(C.Copyright, {
 					value: this.props.copyright
