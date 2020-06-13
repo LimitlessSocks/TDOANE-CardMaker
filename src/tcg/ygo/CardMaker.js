@@ -653,6 +653,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             let imageFiles = zipFile.file(/.*/);
             let count = 0;
             let total = imageFiles.length;
+            let isZooming = false;
             for(let image of imageFiles) {
                 let newState = {};
                 // overhead parsing
@@ -675,15 +676,26 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                     let next = EL("button", null, "Next");
                     let pause = EL("button", null, "Pause");
                     let finish = EL("button", null, "Finish Now");
-                    let body = EL("div", null, next, pause, finish, EL("div", null, count + "/" + total));
+                    let zoomToggle = EL("button", null, isZooming ? "Unzoom" : "Zoom");
 
-                    let popupBody = () => this.popup("Ready?", body);
+                    let body = EL("div", null, next, pause, finish, zoomToggle, EL("div", null, count + "/" + total));
+
+                    let popupBody = () => {
+                        this.popup("Ready?", body);
+                        if(isZooming) {
+                            setTimeout(resolve, 400, true);
+                        }
+                    }
 
                     next.addEventListener("click", function () {
                         resolve(true);
                     });
                     finish.addEventListener("click", function () {
                         resolve(false);
+                    });
+                    zoomToggle.addEventListener("click", function () {
+                        isZooming = !isZooming;
+                        resolve(true);
                     });
                     pause.addEventListener("click", function () {
                         let resume = EL("button", null, "Resume Processing");
