@@ -331,8 +331,6 @@ select[disabled] {
     display: none;
 }
 
-@media()
-
 @media (max-width: 756px)
 {
 	.live-preview,
