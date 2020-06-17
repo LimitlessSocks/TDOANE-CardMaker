@@ -243,6 +243,17 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 return options;
             }
 
+            if(!window.renderOnResize) {
+                window.renderOnResize = true;
+                window.addEventListener("resize", () => {
+                    this.setState({ state: this.state });
+                    this.updateLayoutInputs();
+                });
+            }
+
+            let isMobile = screen.width <= 756;
+            console.log("Rendering, isMobile:", isMobile);
+
             var templates = makeSelect(Card.Layout);
             var attributes = makeSelect(Card.Attributes);
             var icons = makeSelect(Card.Icons);
@@ -282,11 +293,56 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 this.state.card.pendulum.enabled = false;
             }
 
-            let e = React.createElement;
+            let e = (tag, obj = null, ...rest) => {
+                if(tag === "input" || tag === "textarea") {
+                    if(!obj) {
+                        obj = {};
+                    }
+                    let old;
+                    if(obj.onFocus) {
+                        old = obj.onFocus;
+                    }
+                    obj.onFocus = function (ev) {
+                        window.lastFocused = ev.target;
+                        if(old) {
+                            old();
+                        }
+                    };
+                }
+                return React.createElement(tag, obj, ...rest);
+            };
             let labelText = (text) => e("span", { className: "label-text" }, text);
 
-            // let reactCard = e(Card, this.state.card);
-            // console.log(reactCard);
+            // circumvent React's overwriting the value setter
+            // https://stackoverflow.com/a/46012210/4119004
+            let nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, "value"
+            ).set;
+            let nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLTextAreaElement.prototype, "value"
+            ).set;
+            let makeTextAdder = (text) =>
+                e("button", { onClick: function () {
+                    let target = lastFocused;
+                    if(target) {
+                        let update = nativeInputValueSetter;
+                        if(target.tagName === "TEXTAREA") {
+                            update = nativeTextAreaValueSetter;
+                        }
+                        update.call(target, lastFocused.value + text);
+                        target.dispatchEvent(new Event("input", { bubbles: true }));
+                    }
+                }}, text);
+            let primaryButtons = [
+                e("button", { onClick: this.create, className: "ipsButton ipsButton_primary"}, "New Card"),
+                e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save Card"),
+                e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
+                e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
+                e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold" }, "YGOPRO"),
+                e("button", { onClick: this.link2, className: "ipsButton ipsButton_primary gold" }, "Discord"),
+            ];
+            let ptag = isMobile ? "div" : "tr";
+            let ctag = isMobile ? "div" : "td";
             let result = e(
                 "div",
                 {
@@ -298,48 +354,56 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                     // reactCard,
                     e(Card, this.state.card),
 
-                    e("table", { className: "options" },
-                        e("tr", null,
-                            e("td", null, e("button", { onClick: this.create, className: "ipsButton ipsButton_primary"}, "New Card")),
-                            e("td", null, e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save Card")),
-                        ),
-                        e("tr", null,
-                            e("td", null, e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As")),
-                            e("td", null, e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card")),
+                    isMobile
+                        ? e("div", { className: "options" },
+                            ...primaryButtons
                         )
-                    )
+                        : e("table", { className: "options" },
+                            e("tr", null,
+                                e("td", null, primaryButtons[0]),
+                                e("td", null, primaryButtons[1]),
+                            ),
+                            e("tr", null,
+                                e("td", null, primaryButtons[2]),
+                                e("td", null, primaryButtons[3]),
+                            ),
+                            e("tr", null,
+                                e("td", null, primaryButtons[4]),
+                                e("td", null, primaryButtons[5]),
+                            )
+                        )
                 ),
                 e(
                     "div",
                     { className: "editor" },
 
-                    e("table", null, e("tbody", null,
-                        e("tr", null,
-                            e("td", null, e("label", null, labelText("Name"),  e("input", { onChange: this.updateField("card.name"), type: "text", value: this.state.card.name }))),
-                            e("td", null, e("label", null, labelText("Template"), e("select",  { onChange: this.updateField("card.layout"), value: this.state.card.layout }, templates))),
-                            e("td", null, e("label", null, labelText("Rarity"), e("select", { onChange: this.updateField("card.rarity"), value: this.state.card.rarity }, rarities)))
+                    e(isMobile ? "div" : "table", null, e(isMobile ? "div" : "table", null,
+                        e(ptag, null,
+                            e(ctag, null, e("label", null, labelText("Name"),  e("input", { onChange: this.updateField("card.name"), type: "text", value: this.state.card.name }))),
+                            e(ctag, null, e("label", null, labelText("Template"), e("select",  { onChange: this.updateField("card.layout"), value: this.state.card.layout }, templates))),
+                            e(ctag, null, e("label", null, labelText("Rarity"), e("select", { onChange: this.updateField("card.rarity"), value: this.state.card.rarity }, rarities)))
                         ),
-                        e("tr", null,
-                            e("td", null, e("label", null, labelText("Symbol"), e("select", { onChange: this.updateField("card.attribute"), value: this.state.card.attribute }, attributes))),
-                            e("td", { class: "filter not-if-anime" }, e("label", null, labelText("Type"),  e("input", { onChange: this.updateField("card.type"), type: "text", value: this.state.card.type }))),
-                            e("td", { class: "filter if-monster not-if-link" }, e("label", null, labelText(levelName), e("input", { onChange: this.updateField("card.level"), type: "number", value: this.state.card.level }))),
-                            e("td", { class: "filter if-backrow" }, e("label", null, labelText("Icon"), e("select", { onChange: this.updateField("card.icon"), value: this.state.card.icon }, icons)))
+                        e(ptag, null,
+                            e(ctag, null, e("label", null, labelText("Symbol"), e("select", { onChange: this.updateField("card.attribute"), value: this.state.card.attribute }, attributes))),
+                            e(ctag, { class: "filter not-if-anime" }, e("label", null, labelText("Type"),  e("input", { onChange: this.updateField("card.type"), type: "text", value: this.state.card.type }))),
+                            e(ctag, { class: "filter if-monster not-if-link" }, e("label", null, labelText(levelName), e("input", { onChange: this.updateField("card.level"), type: "number", value: this.state.card.level }))),
+                            e(ctag, { class: "filter if-backrow" }, e("label", null, labelText("Icon"), e("select", { onChange: this.updateField("card.icon"), value: this.state.card.icon }, icons)))
                         ),
-                        e("tr", null,
-                            e("td", null, e("label", null, labelText("Style Variant"), e("select", { disabled: this.styleVariants.length <= 1, onChange: this.updateField("card.variant"), value: this.state.card.variant }, this.styleVariants))),
-                            e("td", { class: "filter if-monster" }, e("label", null, labelText("Attack"), e("input", { onChange: this.updateField("card.atk"), type: "text", value: this.state.card.atk }))),
-                            e("td", { class: "filter if-monster" }, e("div", null,
+                        e(ptag, null,
+                            e(ctag, null, e("label", null, labelText("Style Variant"), e("select", { disabled: this.styleVariants.length <= 1, onChange: this.updateField("card.variant"), value: this.state.card.variant }, this.styleVariants))),
+                            e(ctag, { class: "filter if-monster" }, e("label", null, labelText("Attack"), e("input", { onChange: this.updateField("card.atk"), type: "text", value: this.state.card.atk }))),
+                            e(ctag, { class: "filter if-monster" }, e("div", null,
                                 e("label", { class: "filter not-if-link" }, labelText("Defense"), e("input", { onChange: this.updateField("card.def"), type: "text", value: this.state.card.def })),
                                 e("label", { class: "filter if-link" }, labelText("Link Rating"), e("input", { onChange: this.updateField("card.def"), type: "text", value: this.state.card.def }))
                             ))
                         ),
-                        e("tr", { class: "filter not-if-anime" },
-                            e("td", null, e("label", null, labelText("Set id"), e("input", { onChange: this.updateField("card.id"), type: "text", value: this.state.card.id }))),
-                            e("td", null, e("div", { id: "serial-container" },
+                        e(ptag, { class: "filter not-if-anime" },
+                            e(ctag, null, e("label", null, labelText("Set id"), e("input", { onChange: this.updateField("card.id"), type: "text", value: this.state.card.id }))),
+                            e(ctag, null, e("div", { id: "serial-container" },
                                 e("label", { id: "serial-number" }, labelText("Serial number"), e("input", { onChange: this.updateField("card.serial"), type: "text", value: this.state.card.serial })),
                                 e("button", { id: "serial-randomize", onClick: this.randomizeSerialNumber, className: "ipsButton ipsButton_primary" }, "Randomize"),
                             )),
-                            e("td", { class: "filter not-if-rush" }, e("label", null, labelText("Copyright"), e("input", { onChange: this.updateField("card.copyright"), type: "text", value: this.state.card.copyright }))),
+                            e(ctag, { class: "filter not-if-rush" }, e("label", null, labelText("Copyright"), e("input", { onChange: this.updateField("card.copyright"), type: "text", value: this.state.card.copyright }))),
                         )
                     )),
 
@@ -421,7 +485,14 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                         e("label", { class: "filter not-if-anime" }, labelText("Effect"), e("textarea", { onChange: this.updateField("card.pendulum.effect"), type: "text", value: this.state.card.pendulum.effect })),
                     ),
 
-                    e("pre", { "className": "special" }, "∞ ☆ ● © ™"),
+                    e("div", { "className": "special" },
+                        e("label", null, "Add Special Characters"),
+                        makeTextAdder("∞"),
+                        makeTextAdder("☆"),
+                        makeTextAdder("●"),
+                        makeTextAdder("©"),
+                        makeTextAdder("™"),
+                    ),
 
                     e("button", { onClick: this.credits }, "Credits"),
 
