@@ -207,6 +207,8 @@ fieldset, input, select, textarea {
 }
 #serial-number {
     display: inline-block;
+    flex-grow: 1;
+    z-index: 1;
 }
 #serial-randomize {
     height: 2.4em;
@@ -362,11 +364,6 @@ select[disabled] {
     }
     .live-preview .options button {
         width: 100%;
-    }
-
-    #serial-number {
-        flex-grow: 1;
-        z-index: 1;
     }
 
     #popup-content, #popup-content.wide {
