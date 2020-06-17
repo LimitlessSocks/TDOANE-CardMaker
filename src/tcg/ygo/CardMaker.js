@@ -338,7 +338,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save Card"),
                 e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
                 e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
-                e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold" }, "YGOPRO"),
+                e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold", title: "YGOPRO is a free automatic Yu-Gi-Oh! online game. All cards are available and new cards are added as soon as they are announced. Click here to download YGOPRO." }, "YGOPRO"),
                 e("button", { onClick: this.link2, className: "ipsButton ipsButton_primary gold" }, "Discord"),
             ];
             let ptag = isMobile ? "div" : "tr";
@@ -511,6 +511,14 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             this.updateLayoutInputs(null, result);
 
             return result;
+        },
+        link1: function link1() {
+            // ygopro link
+            window.open("https://ygopro.org/", "_blank");
+        },
+        link2: function link2() {
+            // ygopro discord link
+            window.open("https://ygopro.org/discord/", "_blank");
         },
         developer: function developer() {
             let options = [
