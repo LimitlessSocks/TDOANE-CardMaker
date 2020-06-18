@@ -823,7 +823,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             let toParse = [
                 ["Commissioned by:", "Seto Kaiba", "https://github.com/realSetoKaiba"],
                 ["Programmed by:", "Sock#3222", "https://github.com/LimitlessSocks"],
-                ["Management lead:", "Soaring__Sky#3222", "https://github.com/SoaringSky"],
+                ["Management lead:", "Soaring__Sky#1313", "https://github.com/SoaringSky"],
                 ["Rush Duel Templates by:", "alixsep", "https://www.deviantart.com/alixsep"],
                 ["Derived from:", "Yemachu Cardmaker", "https://github.com/Yemachu/cardmaker"],
             ];
