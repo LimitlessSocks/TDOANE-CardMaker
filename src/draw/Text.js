@@ -185,24 +185,24 @@ define(["react", "react-class"], function Text(React, ReactClass)
             ctx.fillText(text, x, y);
         },
 
-		/**
-		 * Draws a single line of text that hugs the left egde.
-		 *
-		 * @param {CanvasRenderingContext2D} ctx Context used for drawing.
-		 * @param {String} text Text to draw.var style = this.props.style;
-		 */
-		drawTextLeftAligned: function leftAligned(ctx, text)
-		{
-			var textWidth = ctx.measureText(text).width;
-			var availableWidth = this.props.style.width || 0;
+        /**
+         * Draws a single line of text that hugs the left egde.
+         *
+         * @param {CanvasRenderingContext2D} ctx Context used for drawing.
+         * @param {String} text Text to draw.var style = this.props.style;
+         */
+        drawTextLeftAligned: function leftAligned(ctx, text)
+        {
+        	var textWidth = ctx.measureText(text).width;
+        	var availableWidth = this.props.style.width || 0;
 
-			var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
-			ctx.save();
-			ctx.scale(scale, 1);
+        	var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
+        	ctx.save();
+        	ctx.scale(scale, 1);
 
-			this.renderText(ctx, text, 0, 0);
-			ctx.restore();
-		},
+        	this.renderText(ctx, text, 0, 0);
+        	ctx.restore();
+        },
 
 		/**
 		 * Draws a single line of text that hugs the right egde.

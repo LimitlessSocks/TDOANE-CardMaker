@@ -775,24 +775,24 @@ define('draw/Text',["react", "react-class"], function Text(React, ReactClass)
             ctx.fillText(text, x, y);
         },
 
-		/**
-		 * Draws a single line of text that hugs the left egde.
-		 *
-		 * @param {CanvasRenderingContext2D} ctx Context used for drawing.
-		 * @param {String} text Text to draw.var style = this.props.style;
-		 */
-		drawTextLeftAligned: function leftAligned(ctx, text)
-		{
-			var textWidth = ctx.measureText(text).width;
-			var availableWidth = this.props.style.width || 0;
+        /**
+         * Draws a single line of text that hugs the left egde.
+         *
+         * @param {CanvasRenderingContext2D} ctx Context used for drawing.
+         * @param {String} text Text to draw.var style = this.props.style;
+         */
+        drawTextLeftAligned: function leftAligned(ctx, text)
+        {
+        	var textWidth = ctx.measureText(text).width;
+        	var availableWidth = this.props.style.width || 0;
 
-			var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
-			ctx.save();
-			ctx.scale(scale, 1);
+        	var scale = Math.min(availableWidth / Math.max(textWidth, 1), 1);
+        	ctx.save();
+        	ctx.scale(scale, 1);
 
-			this.renderText(ctx, text, 0, 0);
-			ctx.restore();
-		},
+        	this.renderText(ctx, text, 0, 0);
+        	ctx.restore();
+        },
 
 		/**
 		 * Draws a single line of text that hugs the right egde.
@@ -3464,157 +3464,6 @@ function DarkSynchro(React, ReactClass, Group, Kind, C) {
 	return DarkSynchro;
 });
 
-// TODO: stance attributes
-define('tcg/ygo/layout/Epoch',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
-function Epoch(React, ReactClass, Group, Kind, C) {
-	var Epoch = ReactClass({
-		render: function render()
-		{
-			return React.createElement(
-				Group,
-				this.props,
-				React.createElement(C.Image, {
-					value: this.props.image,
-                    pendulum: this.props.pendulum.enabled,
-                    rarity: this.props.rarity
-				}),
-				// React.createElement(C.Border, {
-	            //     value: "Epoch", pendulum: this.props.pendulum.enabled
-				// }),
-				React.createElement(C.Border, {
-					value: "Epoch",
-                    pendulum: false
-				}),
-				React.createElement(C.CardName, {
-					value: this.props.name,
-                    color: "white",
-                    rarity: this.props.rarity
-				}),
-				React.createElement(C.Attribute, {
-					value: this.props.attribute
-				}),
-				React.createElement(C.Level, {
-					value: this.props.level, star: "Yellow"
-				}),
-
-				React.createElement(C.Pendulum, this.props.pendulum),
-
-				React.createElement(C.Type, {
-					value: this.props.type
-				}),
-				React.createElement(C.Effect, {
-					value: this.props.effect
-				}),
-				React.createElement(C.Atk, {
-					value: this.props.atk
-				}),
-				React.createElement(C.Def, {
-					value: this.props.def
-				}),
-
-				React.createElement(C.Serial, {
-					value: this.props.serial, color: "white"
-				}),
-				React.createElement(C.Id, {
-					value: this.props.id,
-                    position: this.props.pendulum.enabled ? "pendulum" : "regular",
-                    color: "white"
-				}),
-				React.createElement(C.Copyright, {
-					value: this.props.copyright, color: "white"
-				}),
-
-                React.createElement(C.CardHolo, {
-					rarity: this.props.rarity
-				}),
-			);
-		}
-	});
-	Epoch.displayName = "Epoch";
-    Epoch.kind = Kind.Monster;
-	Epoch.defaultProps = {
-	};
-    Epoch.variants = [ "Normal" ];
-    Epoch.hasPendulum = false;
-	return Epoch;
-});
-
-define('tcg/ygo/layout/Warp',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
-function Synchro(React, ReactClass, Group, Kind, C) {
-	var Warp = ReactClass({
-		render: function render()
-		{
-			return React.createElement(
-				Group,
-				this.props,
-				React.createElement(C.Image, {
-					value: this.props.image,
-                    pendulum: this.props.pendulum.enabled,
-                    rarity: this.props.rarity
-				}),
-				// React.createElement(C.Border, {
-				//          value: "Warp", pendulum: this.props.pendulum.enabled
-				// }),
-				React.createElement(C.Border, {
-					value: "Warp",
-                    pendulum: false
-				}),
-				React.createElement(C.CardName, {
-					value: this.props.name,
-                    color: "white",
-                    rarity: this.props.rarity
-				}),
-				React.createElement(C.Attribute, {
-					value: this.props.attribute
-				}),
-				React.createElement(C.Level, {
-					value: -this.props.level,
-                    star: "Galaxy"
-				}),
-
-				React.createElement(C.Pendulum, this.props.pendulum),
-
-				React.createElement(C.Type, {
-					value: this.props.type
-				}),
-				React.createElement(C.Effect, {
-					value: this.props.effect
-				}),
-				React.createElement(C.Atk, {
-					value: this.props.atk
-				}),
-				React.createElement(C.Def, {
-					value: this.props.def
-				}),
-
-				React.createElement(C.Serial, {
-					value: this.props.serial, color: "white"
-				}),
-				React.createElement(C.Id, {
-					value: this.props.id,
-                    position: this.props.pendulum.enabled ? "pendulum" : "regular",
-                    color: "white"
-				}),
-				React.createElement(C.Copyright, {
-					value: this.props.copyright,
-                    color: "white"
-				}),
-
-                React.createElement(C.CardHolo, {
-					rarity: this.props.rarity
-				}),
-			);
-		}
-	});
-	Warp.displayName = "Warp";
-    Warp.kind = Kind.Monster;
-	Warp.defaultProps = {
-	};
-    Warp.variants = [ "Normal" ];
-    Warp.hasPendulum = false;
-	return Warp;
-});
-
 define('tcg/ygo/layout/Unity',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
 function Unity(React, ReactClass, Group, Kind, C) {
 	var Unity = ReactClass({
@@ -4336,8 +4185,8 @@ define('tcg/ygo/layout/All',[
 	"./Fusion",
 	"./Synchro",
 	"./DarkSynchro",
-	"./Epoch",
-	"./Warp",
+	// "./Epoch",
+	// "./Warp",
 	"./Unity",
 	"./Xyz",
 	"./Link",
@@ -4362,8 +4211,8 @@ function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, DarkSynchro, 
 		Trap: { value: "Trap", fn: Trap },
 		Skill: { value: "Skill", fn: Skill },
 		DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
-		Epoch: { value: "Epoch", name: "Bigbang", fn: Epoch },
-		Warp: { value: "Warp", name: "Time Leap", fn: Warp },
+		// Epoch: { value: "Epoch", name: "Bigbang", fn: Epoch },
+		// Warp: { value: "Warp", name: "Time Leap", fn: Warp },
 		Unity: { value: "Unity", fn: Unity },
 		Rainbow: { value: "Rainbow", fn: Rainbow },
 	};
@@ -5062,6 +4911,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 16777216: "Cyberse",
             };
             let MonsterAttributes = {
+                0: "None",
                 1: "Earth",
                 2: "Water",
                 4: "Fire",
@@ -5116,11 +4966,13 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             }
             result.layout = border || result.layout;
             result.serial = entry.id.toString();
-            if(entry.type & 1) {
-                // if it is a monster
+            if(entry.type & 1 || entry.type & 16384) {
+                // if it is a monster or token
                 let typeNames = [];
                 let monsterType = MonsterTypes[entry.race];
-                typeNames.push(monsterType);
+                if(monsterType) {
+                    typeNames.push(monsterType);
+                }
                 if(entry.type & 2097152) {
                     typeNames.push("Flip");
                 }
@@ -5148,7 +5000,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                     typeNames.push("Pendulum");
                 }
 
-                if(result.layout !== "Effect" && result.layout !== "Normal") {
+                if(result.layout !== "Effect" && result.layout !== "Normal" && result.layout !== "Token") {
                     typeNames.push("Effect");
                 }
                 result.type = typeNames.join("/");
@@ -5194,8 +5046,13 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 newState.image = url;
                 // get data
                 let entry = json[base];
-
+                if(!entry) {
+                    console.warn("No entry for " + base);
+                    continue;
+                }
+                
                 Object.assign(newState, this.convertEntry(entry));
+                
                 // update state
                 this.setState({ card: Object.assign({}, this.state.card, newState)});
                 let status = await new Promise((resolve, reject) => {
@@ -5271,7 +5128,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             let toParse = [
                 ["Commissioned by:", "Seto Kaiba", "https://github.com/realSetoKaiba"],
                 ["Programmed by:", "Sock#3222", "https://github.com/LimitlessSocks"],
-                ["Management lead:", "Soaring__Sky#3222", "https://github.com/SoaringSky"],
+                ["Management lead:", "Soaring__Sky#1313", "https://github.com/SoaringSky"],
                 ["Rush Duel Templates by:", "alixsep", "https://www.deviantart.com/alixsep"],
                 ["Derived from:", "Yemachu Cardmaker", "https://github.com/Yemachu/cardmaker"],
             ];

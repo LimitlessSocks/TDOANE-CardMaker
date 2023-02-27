@@ -614,6 +614,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 16777216: "Cyberse",
             };
             let MonsterAttributes = {
+                0: "None",
                 1: "Earth",
                 2: "Water",
                 4: "Fire",
@@ -668,11 +669,13 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
             }
             result.layout = border || result.layout;
             result.serial = entry.id.toString();
-            if(entry.type & 1) {
-                // if it is a monster
+            if(entry.type & 1 || entry.type & 16384) {
+                // if it is a monster or token
                 let typeNames = [];
                 let monsterType = MonsterTypes[entry.race];
-                typeNames.push(monsterType);
+                if(monsterType) {
+                    typeNames.push(monsterType);
+                }
                 if(entry.type & 2097152) {
                     typeNames.push("Flip");
                 }
@@ -700,7 +703,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                     typeNames.push("Pendulum");
                 }
 
-                if(result.layout !== "Effect" && result.layout !== "Normal") {
+                if(result.layout !== "Effect" && result.layout !== "Normal" && result.layout !== "Token") {
                     typeNames.push("Effect");
                 }
                 result.type = typeNames.join("/");
@@ -746,8 +749,13 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 newState.image = url;
                 // get data
                 let entry = json[base];
-
+                if(!entry) {
+                    console.warn("No entry for " + base);
+                    continue;
+                }
+                
                 Object.assign(newState, this.convertEntry(entry));
+                
                 // update state
                 this.setState({ card: Object.assign({}, this.state.card, newState)});
                 let status = await new Promise((resolve, reject) => {
