@@ -1,7 +1,7 @@
 define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App(React, ReactClass, Card, WebFont, Checkbox)
 {
     var emptyCard = {
-        version: "1.0.0",
+        version: "1.0.1",
         rarity: "Common",
         name: "",
         level: 0,
@@ -10,7 +10,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
         atk: "",
         def: "",
         serial: "0123456789",
-        copyright: "© 2020 YGOPRO.ORG",
+        copyright: "THIS IS A CUSTOM CARD",
         id: "",
         attribute: "None",
         pendulum:
@@ -335,11 +335,11 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 }}, text);
             let primaryButtons = [
                 e("button", { onClick: this.create, className: "ipsButton ipsButton_primary"}, "New Card"),
-                e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Save Card"),
-                e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
-                e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
-                e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold", title: "YGOPRO is a free automatic Yu-Gi-Oh! online game. All cards are available and new cards are added as soon as they are announced. Click here to download YGOPRO." }, "YGOPRO"),
-                e("button", { onClick: this.link2, className: "ipsButton ipsButton_primary gold" }, "Discord"),
+                e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Submit Card"),
+                // e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
+                // e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
+                // e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold", title: "YGOPRO is a free automatic Yu-Gi-Oh! online game. All cards are available and new cards are added as soon as they are announced. Click here to download YGOPRO." }, "YGOPRO"),
+                // e("button", { onClick: this.link2, className: "ipsButton ipsButton_primary gold" }, "Discord"),
             ];
             let ptag = isMobile ? "div" : "tr";
             let ctag = isMobile ? "div" : "td";
@@ -829,10 +829,10 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
         credits: function credits() {
             let body = document.createElement("div");
             let toParse = [
-                ["Commissioned by:", "Seto Kaiba", "https://github.com/realSetoKaiba"],
-                ["Programmed by:", "Sock#3222", "https://github.com/LimitlessSocks"],
-                ["Management lead:", "Soaring__Sky#1313", "https://github.com/SoaringSky"],
-                ["Rush Duel Templates by:", "alixsep", "https://www.deviantart.com/alixsep"],
+                ["Commissioned by:", "ygoprodeck", "https://ygoprodeck.com/"],
+                ["Programmed by:", "sockthesparrow", "https://github.com/LimitlessSocks"],
+                // ["Management lead:", "Soaring__Sky#1313", "https://github.com/SoaringSky"],
+                // ["Rush Duel Templates by:", "alixsep", "https://www.deviantart.com/alixsep"],
                 ["Derived from:", "Yemachu Cardmaker", "https://github.com/Yemachu/cardmaker"],
             ];
             for(let [intro, name, href] of toParse) {

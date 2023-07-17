@@ -34,7 +34,7 @@ function App(React, ReactClass, Canvas, Layouts, Kind, Attributes, Stars, Icons,
     Card.StyleVariants = {
         "Normal": "Normal",
         "Anime": "Anime",
-        "Rush": "Rush",
+        // "Rush": "Rush",
     };
 	return Card;
 });
