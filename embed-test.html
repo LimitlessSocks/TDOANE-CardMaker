@@ -21,20 +21,25 @@
         }
         .flex {
             display: flex;
-            height: calc(100vh - 40px - 2 * 8px);
             justify-content: center;
             align-items: center;
+        }
+        p {
+            margin: 15px;
         }
     </style>
 </head>
 <body>
     <header>
-        Test Header
+        &gt;&gt;&gt;DUMMY TEST HEADER&lt;&lt;&lt;
     </header>
-    <div class="flex">
-        <iframe src="http://192.168.1.153:8080/index.html">
+    <article>
+        <p>This page shows an example of embedding the application. The red border is for demonstration purposes only.</p>
+        <div class="flex">
+            <iframe src="http://192.168.1.153:8080/index.html">
 
-        </iframe>
-    </div>
+            </iframe>
+        </div>
+    </article>
 </body>
 </html>

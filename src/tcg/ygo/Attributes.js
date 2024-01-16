@@ -12,7 +12,7 @@ define(["./Resources"], function Attributes(resources)
 		Wind:     { url: [path, "Wind.png"].join("/") },
 		Spell:    { url: [path, "Spell.png"].join("/") },
 		Trap:     { url: [path, "Trap.png"].join("/") },
-        Rainbow:  { url: [path, "Rainbow.png"].join("/") },
-        Void:     { url: [path, "Void.png"].join("/") },
+        // Rainbow:  { url: [path, "Rainbow.png"].join("/") },
+        // Void:     { url: [path, "Void.png"].join("/") },
 	};
 });

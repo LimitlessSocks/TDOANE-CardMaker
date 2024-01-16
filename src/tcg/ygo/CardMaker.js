@@ -322,20 +322,23 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 window.HTMLTextAreaElement.prototype, "value"
             ).set;
             let makeTextAdder = (text) =>
-                e("button", { onClick: function () {
-                    let target = lastFocused;
-                    if(target) {
-                        let update = nativeInputValueSetter;
-                        if(target.tagName === "TEXTAREA") {
-                            update = nativeTextAreaValueSetter;
+                e("button", {
+                    class: "btn btn-secondary",
+                    onClick: function () {
+                        let target = lastFocused;
+                        if(target) {
+                            let update = nativeInputValueSetter;
+                            if(target.tagName === "TEXTAREA") {
+                                update = nativeTextAreaValueSetter;
+                            }
+                            update.call(target, lastFocused.value + text);
+                            target.dispatchEvent(new Event("input", { bubbles: true }));
                         }
-                        update.call(target, lastFocused.value + text);
-                        target.dispatchEvent(new Event("input", { bubbles: true }));
                     }
-                }}, text);
+                }, text);
             let primaryButtons = [
-                e("button", { onClick: this.create, className: "ipsButton ipsButton_primary"}, "New Card"),
-                e("button", { onClick: this.save, className: "ipsButton ipsButton_primary" }, "Submit Card"),
+                e("button", { onClick: this.create, className: "btn btn-primary"}, "New Card"),
+                e("button", { onClick: this.save, className: "btn btn-primary" }, "Submit Card"),
                 // e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
                 // e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
                 // e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold", title: "YGOPRO is a free automatic Yu-Gi-Oh! online game. All cards are available and new cards are added as soon as they are announced. Click here to download YGOPRO." }, "YGOPRO"),
@@ -379,40 +382,43 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
 
                     e(isMobile ? "div" : "table", null, e(isMobile ? "div" : "table", null,
                         e(ptag, null,
-                            e(ctag, null, e("label", null, labelText("Name"),  e("input", { onChange: this.updateField("card.name"), type: "text", value: this.state.card.name }))),
-                            e(ctag, null, e("label", null, labelText("Template"), e("select",  { onChange: this.updateField("card.layout"), value: this.state.card.layout }, templates))),
-                            e(ctag, null, e("label", null, labelText("Rarity"), e("select", { onChange: this.updateField("card.rarity"), value: this.state.card.rarity }, rarities)))
+                            e(ctag, null, e("label", null, labelText("Name"),  e("input", { class: "form-control input-border", onChange: this.updateField("card.name"), type: "text", value: this.state.card.name }))),
+                            e(ctag, null, e("label", { class: "wide" }, labelText("Template"), e("select", { class: "form-control s_m-select", onChange: this.updateField("card.layout"), value: this.state.card.layout }, templates))),
+                            e(ctag, null, e("label", null, labelText("Rarity"), e("select", { class: "form-control s_m-select", onChange: this.updateField("card.rarity"), value: this.state.card.rarity }, rarities)))
                         ),
                         e(ptag, null,
-                            e(ctag, null, e("label", null, labelText("Symbol"), e("select", { onChange: this.updateField("card.attribute"), value: this.state.card.attribute }, attributes))),
-                            e(ctag, { class: "filter not-if-anime" }, e("label", null, labelText("Type"),  e("input", { onChange: this.updateField("card.type"), type: "text", value: this.state.card.type }))),
-                            e(ctag, { class: "filter if-monster not-if-link" }, e("label", null, labelText(levelName), e("input", { onChange: this.updateField("card.level"), type: "number", value: this.state.card.level }))),
-                            e(ctag, { class: "filter if-backrow" }, e("label", null, labelText("Icon"), e("select", { onChange: this.updateField("card.icon"), value: this.state.card.icon }, icons)))
+                            e(ctag, null, e("label", null, labelText("Symbol"), e("select", { class: "form-control s_m-select", onChange: this.updateField("card.attribute"), value: this.state.card.attribute }, attributes))),
+                            e(ctag, { class: "filter not-if-anime" }, e("label", null, labelText("Type"),  e("input", { class: "form-control input-border", onChange: this.updateField("card.type"), type: "text", value: this.state.card.type }))),
+                            e(ctag, { class: "filter if-monster not-if-link" }, e("label", null, labelText(levelName), e("input", { class: "form-control input-border", onChange: this.updateField("card.level"), type: "number", value: this.state.card.level }))),
+                            e(ctag, { class: "filter if-backrow" }, e("label", null, labelText("Icon"), e("select", { class: "form-control s_m-select", onChange: this.updateField("card.icon"), value: this.state.card.icon }, icons)))
                         ),
                         e(ptag, null,
-                            e(ctag, null, e("label", null, labelText("Style Variant"), e("select", { disabled: this.styleVariants.length <= 1, onChange: this.updateField("card.variant"), value: this.state.card.variant }, this.styleVariants))),
-                            e(ctag, { class: "filter if-monster" }, e("label", null, labelText("Attack"), e("input", { onChange: this.updateField("card.atk"), type: "text", value: this.state.card.atk }))),
+                            e(ctag, null, e("label", null, labelText("Style Variant"), e("select", { class: "form-control s_m-select", disabled: this.styleVariants.length <= 1, onChange: this.updateField("card.variant"), value: this.state.card.variant }, this.styleVariants))),
+                            e(ctag, { class: "filter if-monster" }, e("label", null, labelText("Attack"), e("input", { class: "form-control input-border", onChange: this.updateField("card.atk"), type: "text", value: this.state.card.atk }))),
                             e(ctag, { class: "filter if-monster" }, e("div", null,
-                                e("label", { class: "filter not-if-link" }, labelText("Defense"), e("input", { onChange: this.updateField("card.def"), type: "text", value: this.state.card.def })),
-                                e("label", { class: "filter if-link" }, labelText("Link Rating"), e("input", { onChange: this.updateField("card.def"), type: "text", value: this.state.card.def }))
+                                e("label", { class: "filter not-if-link" }, labelText("Defense"), e("input", { class: "form-control input-border", onChange: this.updateField("card.def"), type: "text", value: this.state.card.def })),
+                                e("label", { class: "filter if-link" }, labelText("Link Rating"), e("input", { class: "form-control input-border", onChange: this.updateField("card.def"), type: "text", value: this.state.card.def }))
                             ))
                         ),
                         e(ptag, { class: "filter not-if-anime" },
-                            e(ctag, null, e("label", null, labelText("Set id"), e("input", { onChange: this.updateField("card.id"), type: "text", value: this.state.card.id }))),
+                            e(ctag, null, e("label", null, labelText("Set id"), e("input", { class: "form-control input-border", onChange: this.updateField("card.id"), type: "text", value: this.state.card.id }))),
                             e(ctag, null, e("div", { id: "serial-container" },
-                                e("label", { id: "serial-number" }, labelText("Serial number"), e("input", { onChange: this.updateField("card.serial"), type: "text", value: this.state.card.serial })),
-                                e("button", { id: "serial-randomize", onClick: this.randomizeSerialNumber, className: "ipsButton ipsButton_primary" }, "Randomize"),
+                                e("label", { id: "serial-number" }, labelText("Serial number"),
+                                    e("input", { class: "form-control input-border", onChange: this.updateField("card.serial"), type: "text", value: this.state.card.serial }),
+                                    // e("button", { id: "serial-randomize", onClick: this.randomizeSerialNumber, className: "btn btn-primary" }, "Randomize"),
+                                ),
+                                // original location for randomize button - ugly and sticks out of line. can probably be fixed with smart flexboxing and aligning. unlike what is present here.
                             )),
-                            e(ctag, { class: "filter not-if-rush" }, e("label", null, labelText("Copyright"), e("input", { onChange: this.updateField("card.copyright"), type: "text", value: this.state.card.copyright }))),
+                            e(ctag, { class: "filter not-if-rush" }, e("label", null, labelText("Copyright"), e("input", { class: "form-control input-border", onChange: this.updateField("card.copyright"), type: "text", value: this.state.card.copyright }))),
                         )
                     )),
 
                     e("table", null, e("tbody", null,
                         e("tr", null,
-                            e("td", { colSpan: 2 }, e("label", null, labelText("Image"), e("input", { onChange: this.updateField("card.image"), type: "text" }), e("input", { onChange: this.updateCardImage("image"), type: "file" })))
+                            e("td", { colSpan: 2 }, e("label", null, labelText("Image"), e("input", { class: "form-control input-border", onChange: this.updateField("card.image"), type: "text" }), e("input", { onChange: this.updateCardImage("image"), type: "file" })))
                         ),
                         e("tr", null,
-                            e("td", null, e("label", null, labelText("Effect"), e("textarea", { id: "effect-input", onChange: this.updateField("card.effect"), value: this.state.card.effect }))),
+                            e("td", null, e("label", { className: "wide" }, labelText("Effect"), e("textarea", { id: "effect-input", onChange: this.updateField("card.effect"), value: this.state.card.effect }))),
                         ),
                     )),
 
@@ -420,7 +426,7 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                     e(
                         "fieldset",
                         { class: "filter if-link", id: "link-container" },
-                        e("legend", null, e("label", {}, "Link")),
+                        e("legend", null, e("label", {}, labelText("Link"))),
                         e("table", null, e("tbody",null,
                             e("tr", null,
                                 e("td", null,
@@ -470,23 +476,23 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                         { class: "filter not-if-rush" + (hasPendulum ? "" : " hidden") },
                         e(
                             "legend",
-                            null,
+                            { class: "spacy" },
                             e(Checkbox, { id: "ccm_ygo:pendulum.enabled", onChange: function(e){this.updateField("card.pendulum.enabled")({target: {value: e.target.checked}});}.bind(this), type: "checkbox", checked: this.state.card.pendulum.enabled }),
                             e("label", { htmlFor: "ccm_ygo:pendulum.enabled"}, labelText("Pendulum") )
                         ),
 
                         e("table", { class: "mintable" },
                             e("tr", null,
-                                e("td", { class: "pendulum-scale-holder" }, e("label", { class: "blue-scale" }, labelText("Blue scale"), e("input", { onChange: this.updateField("card.pendulum.blue"), type: "text", value: this.state.card.pendulum.blue }))),
-                                e("td", { class: "pendulum-scale-holder" }, e("label", { class: "red-scale" }, labelText("Red scale"), e("input", { onChange: this.updateField("card.pendulum.red"), type: "text", value: this.state.card.pendulum.red }))),
-                                e("td", null, e("label", { class: "filter not-if-anime" }, labelText("Pendulum box size"), e("select",  { disabled: this.boxSizes.length <= 1, onChange: this.updateField("card.pendulum.boxSize"), value: this.state.card.pendulum.boxSize }, this.boxSizes)))
+                                e("td", { class: "pendulum-scale-holder" }, e("label", { class: "blue-scale" }, labelText("Blue scale"), e("input", { class: "form-control input-border", onChange: this.updateField("card.pendulum.blue"), type: "text", value: this.state.card.pendulum.blue }))),
+                                e("td", { class: "pendulum-scale-holder" }, e("label", { class: "red-scale" }, labelText("Red scale"), e("input", { class: "form-control input-border", onChange: this.updateField("card.pendulum.red"), type: "text", value: this.state.card.pendulum.red }))),
+                                e("td", null, e("label", { class: "filter not-if-anime" }, labelText("Pendulum box size"), e("select",  { class: "form-control s_m-select", disabled: this.boxSizes.length <= 1, onChange: this.updateField("card.pendulum.boxSize"), value: this.state.card.pendulum.boxSize }, this.boxSizes)))
                             )
                         ),
-                        e("label", { class: "filter not-if-anime" }, labelText("Effect"), e("textarea", { onChange: this.updateField("card.pendulum.effect"), type: "text", value: this.state.card.pendulum.effect })),
+                        e("label", { class: "filter not-if-anime wide" }, labelText("Effect"), e("textarea", { onChange: this.updateField("card.pendulum.effect"), type: "text", value: this.state.card.pendulum.effect })),
                     ),
 
-                    e("div", { "className": "special" },
-                        e("label", null, "Add Special Characters"),
+                    e("div", { "className": "special-characters" },
+                        e("span", { class: "label-text" }, "Add Special Characters"),
                         makeTextAdder("∞"),
                         makeTextAdder("☆"),
                         makeTextAdder("●"),
@@ -494,9 +500,9 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                         makeTextAdder("™"),
                     ),
 
-                    e("button", { onClick: this.credits }, "Credits"),
+                    e("button", { onClick: this.credits, class: "btn btn-secondary" }, "Cardmaker Credits"),
 
-                    e("button", { onClick: this.developer }, "Developer Features"),
+                    // e("button", { onClick: this.developer }, "Developer Features"),
                 ),
                 // popup
                 e("div", { id: "popup-area", class: "hidden", onClick: (e) => e.target === e.currentTarget && this.closePopup() },
