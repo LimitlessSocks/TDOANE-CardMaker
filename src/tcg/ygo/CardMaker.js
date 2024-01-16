@@ -425,40 +425,40 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topLeft", onChange: function(e){this.updateField("card.link.topLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.topLeft"}, "")
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topCenter", onChange: function(e){this.updateField("card.link.topCenter")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topCenter }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topCenter"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.topCenter"}, "" )
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topRight", onChange: function(e){this.updateField("card.link.topRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.topRight"}, "" )
                                 )
                             ),
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.middleLeft", onChange: function(e){this.updateField("card.link.middleLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.middleLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.middleLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.middleLeft"}, "")
                                 ),
                                 e("td"),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.middleRight", onChange: function(e){this.updateField("card.link.middleRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.middleRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.middleRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.middleRight"}, "" )
                                 )
                             ),
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomLeft", onChange: function(e){this.updateField("card.link.bottomLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomLeft"}, "")
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomCenter", onChange: function(e){this.updateField("card.link.bottomCenter")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomCenter }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomCenter"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomCenter"}, "" )
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomRight", onChange: function(e){this.updateField("card.link.bottomRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomRight"}, "" )
                                 )
                             )
                         ))

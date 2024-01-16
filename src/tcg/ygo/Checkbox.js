@@ -2,7 +2,7 @@ define(["react", "react-class"], function(React, ReactClass){
 	return function(props)
 	{
 		return React.createElement(
-			"span",
+			"label",
 			{
 				className: "ipsCustomInput"
 			},
@@ -12,7 +12,7 @@ define(["react", "react-class"], function(React, ReactClass){
 				type: "checkbox",
 				checked: props.checked
 			}),
-			React.createElement("span", {})
+			// React.createElement("span", {})
 		);
 	}
 });

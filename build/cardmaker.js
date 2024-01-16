@@ -3382,159 +3382,6 @@ function Synchro(React, ReactClass, Group, Kind, C) {
 	return Synchro;
 });
 
-define('tcg/ygo/layout/DarkSynchro',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
-function DarkSynchro(React, ReactClass, Group, Kind, C) {
-	var DarkSynchro = ReactClass({
-		render: function render()
-		{
-            this.props.pendulum.boxSizeEnabled = this.props.boxSizeEnabled;
-            if(this.props.variant === "Anime") {
-                return React.createElement(
-                    Group,
-                    this.props,
-                    React.createElement(C.Image, { value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity, variant: this.props.variant }),
-                    React.createElement(C.Border, { value: "DarkSynchro", pendulum: this.props.pendulum, variant: this.props.variant }),
-                    React.createElement(C.Attribute, { value: this.props.attribute, variant: this.props.variant,  }),
-                    React.createElement(C.Pendulum, Object.assign({ variant: this.props.variant }, this.props.pendulum)),
-                    React.createElement(C.CardHolo, { rarity: this.props.rarity }),
-
-                    React.createElement(C.Atk, { value: this.props.atk, variant: this.props.variant }),
-                    React.createElement(C.Def, { value: this.props.def, variant: this.props.variant }),
-
-                    React.createElement(C.Level, { value: -this.props.level, star: "Negative", variant: this.props.variant }),
-                );
-            }
-			return React.createElement(
-				Group,
-				this.props,
-				React.createElement(C.Image, {
-					value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity
-				}),
-				React.createElement(C.Border, {
-					value: "DarkSynchro", pendulum: this.props.pendulum
-				}),
-				React.createElement(C.CardName, {
-					value: this.props.name, color: "white", rarity: this.props.rarity
-				}),
-				React.createElement(C.Attribute, {
-					value: this.props.attribute
-				}),
-				React.createElement(C.Level, {
-					value: -this.props.level, star: "Negative"
-				}),
-
-				React.createElement(C.Pendulum, this.props.pendulum),
-
-				React.createElement(C.Type, {
-					value: this.props.type
-				}),
-				React.createElement(C.Effect, {
-					value: this.props.effect
-				}),
-				React.createElement(C.Atk, {
-					value: this.props.atk
-				}),
-				React.createElement(C.Def, {
-					value: this.props.def
-				}),
-
-				React.createElement(C.Serial, {
-					value: this.props.serial, color: this.props.pendulum.enabled ? undefined : "black"
-				}),
-				React.createElement(C.Id, {
-					value: this.props.id, position: this.props.pendulum.enabled ? "pendulum" : "regular", color: this.props.pendulum.enabled ? undefined : "black"
-				}),
-				React.createElement(C.Copyright, {
-					value: this.props.copyright, color: this.props.pendulum.enabled ? undefined : "black"
-				}),
-
-                React.createElement(C.CardHolo, {
-					rarity: this.props.rarity
-				}),
-			);
-		}
-	});
-	DarkSynchro.displayName = "DarkSynchro";
-    DarkSynchro.kind = Kind.Monster;
-	DarkSynchro.defaultProps = {
-        boxSizeEnabled: false,
-	};
-    DarkSynchro.hasPendulum = false;
-    DarkSynchro.variants = [ "Normal", "Anime" ];
-	return DarkSynchro;
-});
-
-define('tcg/ygo/layout/Unity',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
-function Unity(React, ReactClass, Group, Kind, C) {
-	var Unity = ReactClass({
-		render: function render()
-		{
-			return React.createElement(
-				Group,
-				this.props,
-				React.createElement(C.Image, {
-					value: this.props.image,
-                    pendulum: true,
-                    rarity: this.props.rarity
-				}),
-				React.createElement(C.Border, {
-                    value: "Unity",
-                    pendulum: { enabled: true }
-                }),
-				React.createElement(C.CardName, {
-					value: this.props.name,
-                    rarity: this.props.rarity
-				}),
-				React.createElement(C.Attribute, {
-					value: this.props.attribute
-				}),
-				React.createElement(C.Level, {
-					value: this.props.level, star: "Normal"
-				}),
-
-				React.createElement(C.Pendulum, Object.assign({}, this.props.pendulum, {
-					enabled: true
-				})),
-
-				React.createElement(C.Type, {
-					value: this.props.type
-				}),
-				React.createElement(C.Effect, {
-					value: this.props.effect
-				}),
-				React.createElement(C.Atk, {
-					value: this.props.atk
-				}),
-				React.createElement(C.Def, {
-					value: this.props.def
-				}),
-
-				React.createElement(C.Serial, {
-					value: this.props.serial
-				}),
-				React.createElement(C.Id, {
-					value: this.props.id,
-                    position: "pendulum"
-				}),
-				React.createElement(C.Copyright, {
-					value: this.props.copyright
-				}),
-
-                React.createElement(C.CardHolo, {
-					rarity: this.props.rarity
-				}),
-			);
-		}
-	});
-	Unity.displayName = "Unity";
-    Unity.kind = Kind.Monster;
-	Unity.defaultProps = {
-	};
-    Unity.variants = [ "Normal" ];
-    Unity.hasPendulum = true;
-	return Unity;
-});
-
 define('tcg/ygo/layout/Xyz',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
 function Xyz(React, ReactClass, Group, Kind, C) {
 	var Xyz = ReactClass({
@@ -4066,155 +3913,43 @@ function Skill(React, ReactClass, Group, Kind, C) {
 	return Skill;
 });
 
-// TODO: stance attributes
-define('tcg/ygo/layout/Rainbow',["react", "react-class", "draw/Group", "./Kind.js", "./component/All"],
-function Rainbow(React, ReactClass, Group, Kind, C) {
-	var Rainbow = ReactClass({
-		render: function render()
-		{
-            let isLargePendulum = false;
-            this.props.pendulum.boxSizeEnabled = this.props.boxSizeEnabled;
-            if(this.props.pendulum.enabled && this.props.boxSizeEnabled) {
-                isLargePendulum = this.props.pendulum.boxSize === "Large";
-            }
-            let isRush = this.props.variant === "Rush";
-            let position = isRush ? "rush" : this.props.pendulum.enabled ? "pendulum" : "regular";
-            let type = isRush ? "RushMonster" : isLargePendulum ? "LargePendulumMonster" : "Monster";
-            if(this.props.variant === "Anime") {
-                return React.createElement(
-                    Group,
-                    this.props,
-                    React.createElement(C.Image, { value: this.props.image, pendulum: this.props.pendulum.enabled, rarity: this.props.rarity, variant: this.props.variant }),
-                    React.createElement(C.Border, { value: "Rainbow", pendulum: this.props.pendulum,  variant: this.props.variant, }),
-                    React.createElement(C.Attribute, { value: this.props.attribute, variant: this.props.variant, }),
-                    React.createElement(C.Pendulum, Object.assign({ variant: this.props.variant }, this.props.pendulum)),
-                    React.createElement(C.CardHolo, { rarity: this.props.rarity }),
-
-    				React.createElement(C.Atk, { value: this.props.atk, variant: this.props.variant }),
-    				React.createElement(C.Def, { value: this.props.def, variant: this.props.variant }),
-
-                    React.createElement(C.Level, { value: -this.props.level, star: "Rainbow", variant: this.props.variant }),
-                );
-            }
-			return React.createElement(
-				Group,
-				this.props,
-				React.createElement(C.Image, {
-					value: this.props.image,
-                    pendulum: this.props.pendulum.enabled,
-                    rarity: this.props.rarity,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Border, {
-					value: "Rainbow",
-                    pendulum: this.props.pendulum,
-                    variant: this.props.variant
-				}),
-				// React.createElement(C.Border, {
-			    //       value: "Rainbow", pendulum: false
-				// }),
-				React.createElement(C.CardName, {
-					value: this.props.name,
-                    rarity: this.props.rarity,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Attribute, {
-					value: this.props.attribute,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Level, {
-					value: -this.props.level,
-                    star: "Rainbow",
-                    variant: this.props.variant
-				}),
-
-				React.createElement(C.Pendulum, isRush ? {} : this.props.pendulum),
-
-				React.createElement(C.Type, {
-					value: this.props.type,
-                    type: type,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Effect, {
-					value: this.props.effect,
-                    type: type,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Atk, {
-					value: this.props.atk,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Def, {
-					value: this.props.def,
-                    variant: this.props.variant
-				}),
-
-				React.createElement(C.Serial, {
-					value: this.props.serial,
-                    variant: this.props.variant
-				}),
-				React.createElement(C.Id, {
-					value: this.props.id,
-                    position: position,
-                    color: "white"
-				}),
-				React.createElement(C.Copyright, {
-					value: isRush ? "" : this.props.copyright
-				}),
-
-                React.createElement(C.CardHolo, {
-					rarity: this.props.rarity
-				}),
-			);
-		}
-	});
-	Rainbow.displayName = "Rainbow";
-    Rainbow.kind = Kind.Monster;
-	Rainbow.defaultProps = {
-        boxSizeEnabled: true,
-	};
-    Rainbow.levelName = "Tier";
-    // Rainbow.
-	return Rainbow;
-});
-
 define('tcg/ygo/layout/All',[
 	"./Normal",
 	"./Effect",
 	"./Ritual",
 	"./Fusion",
 	"./Synchro",
-	"./DarkSynchro",
-	// "./Epoch",
-	// "./Warp",
-	"./Unity",
 	"./Xyz",
 	"./Link",
 	"./Token",
 	"./Spell",
 	"./Trap",
 	"./Skill",
-	"./Rainbow",
+	// "./DarkSynchro",
+	// "./Epoch",
+	// "./Warp",
+	// "./Unity",
+	// "./Rainbow",
 ],
-function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, DarkSynchro, Epoch, Warp, Unity, Xyz, Link, Token, Spell, Trap, Skill, Rainbow)
+function ygo_template_all(Normal, Effect, Ritual, Fusion, Synchro, Xyz, Link, Token, Spell, Trap, Skill)
 {
 	return {
 		Normal: { value: "Normal", fn: Normal },
 		Effect: { value: "Effect", fn: Effect },
 		Ritual: { value: "Ritual", fn: Ritual },
 		Fusion: { value: "Fusion", fn: Fusion },
-		Synchro: { value: "Synchro", fn:Synchro },
+		Synchro: { value: "Synchro", fn: Synchro },
         Xyz: { value: "Xyz", fn: Xyz },
 		Link: { value: "Link", fn: Link },
 		Token: { value: "Token", fn: Token },
 		Spell: { value: "Spell", fn: Spell },
 		Trap: { value: "Trap", fn: Trap },
 		Skill: { value: "Skill", fn: Skill },
-		DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
+		// DarkSynchro: { value: "DarkSynchro", name: "Dark Synchro", fn: DarkSynchro },
 		// Epoch: { value: "Epoch", name: "Bigbang", fn: Epoch },
 		// Warp: { value: "Warp", name: "Time Leap", fn: Warp },
-		Unity: { value: "Unity", fn: Unity },
-		Rainbow: { value: "Rainbow", fn: Rainbow },
+		// Unity: { value: "Unity", fn: Unity },
+		// Rainbow: { value: "Rainbow", fn: Rainbow },
 	};
 });
 
@@ -4281,7 +4016,7 @@ define('tcg/ygo/Checkbox',["react", "react-class"], function(React, ReactClass){
 	return function(props)
 	{
 		return React.createElement(
-			"span",
+			"label",
 			{
 				className: "ipsCustomInput"
 			},
@@ -4291,7 +4026,7 @@ define('tcg/ygo/Checkbox',["react", "react-class"], function(React, ReactClass){
 				type: "checkbox",
 				checked: props.checked
 			}),
-			React.createElement("span", {})
+			// React.createElement("span", {})
 		);
 	}
 });
@@ -4722,40 +4457,40 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topLeft", onChange: function(e){this.updateField("card.link.topLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.topLeft"}, "")
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topCenter", onChange: function(e){this.updateField("card.link.topCenter")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topCenter }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topCenter"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.topCenter"}, "" )
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.topRight", onChange: function(e){this.updateField("card.link.topRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.topRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.topRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.topRight"}, "" )
                                 )
                             ),
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.middleLeft", onChange: function(e){this.updateField("card.link.middleLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.middleLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.middleLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.middleLeft"}, "")
                                 ),
                                 e("td"),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.middleRight", onChange: function(e){this.updateField("card.link.middleRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.middleRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.middleRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.middleRight"}, "" )
                                 )
                             ),
                             e("tr", null,
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomLeft", onChange: function(e){this.updateField("card.link.bottomLeft")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomLeft }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomLeft"}, "")
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomLeft"}, "")
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomCenter", onChange: function(e){this.updateField("card.link.bottomCenter")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomCenter }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomCenter"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomCenter"}, "" )
                                 ),
                                 e("td", null,
                                     e(Checkbox, { id: "ccm_ygo:link.bottomRight", onChange: function(e){this.updateField("card.link.bottomRight")({target: {value: e.target.checked}});}.bind(this), checked: this.state.card.link.bottomRight }),
-                                    e("label", { htmlFor: "ccm_ygo:link.bottomRight"}, "" )
+                                    // e("label", { htmlFor: "ccm_ygo:link.bottomRight"}, "" )
                                 )
                             )
                         ))

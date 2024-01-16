@@ -134,11 +134,11 @@ input[type="text"], input[type="number"] {
 }
 
 input[type="text"], input[type="number"], input[type="file"], select, textarea {
-    background-color: #111010;
+    /* background-color: #111010; */
 }
 
 fieldset, input, select, textarea {
-    border: 1px solid #2f4557;
+    /* border: 1px solid #2f4557; */
 }
 
 .label-text, button {
@@ -217,13 +217,22 @@ fieldset, input, select, textarea {
 
 #link-container {
     width: 100px;
+    line-height: 0;
 }
 #link-container table {
     background-color: #334488;
-    box-shadow: 0 0 10px 5px #334488;
+    /* box-shadow: 0 0 10px 5px #334488; */
+    border-radius: 5px;
 }
 #link-container tr {
     text-align: center;
+}
+#link-container td .ipsCustomInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
 }
 .ipsCustomInput input[type="checkbox"] + span::after {
     position: static !important;
