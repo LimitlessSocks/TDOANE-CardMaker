@@ -3,7 +3,7 @@ while true
     puts "Building..."
     system "node r.js -o build/config.js"
     puts "Running test server (localhost:8080)"
-    pid = spawn "node testserve.js"
+    pid = spawn "node backend-test.js"
     Process.wait pid
 end
 # while true

@@ -4107,6 +4107,31 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         document.head.appendChild(scriptElement);
     };
 
+    window.loadRemoteCardHook = null;
+    const _remoteHookPromiseQueue = [];
+    const useLoadRemoteCardHook = (...args) => new Promise((resolve, reject) => {
+        if(window.loadRemoteCardHook) {
+            resolve(window.loadRemoteCardHook(...args));
+        }
+        else {
+            _remoteHookPromiseQueue.push({ args, resolve, reject });
+        }
+    });
+    const setLoadRemoteCardHook = fn => {
+        if(window.loadRemoteCardHook) {
+            console.warn("Warning: Overwriting existing loadRemoteCard hook");
+        }
+        if(!fn) {
+            console.warn("Warning: Setting remote card hook to non-truthy value", fn);
+        }
+        console.log("Setting loadRemoteCard hook", fn);
+        window.loadRemoteCardHook = fn;
+        let ordersToFill = _remoteHookPromiseQueue.splice(0);
+        for(let { args, resolve, reject } of ordersToFill) {
+            resolve(fn(...args));
+        }
+    };
+
     var CardMakerApp = ReactClass({
 
         getInitialState: function initialState() {
@@ -4181,7 +4206,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             this.onFieldUpdate("card.layout", function (state, value) {
                 this.updateLayoutInputs(value);
             });
-
+            setLoadRemoteCardHook(this.loadRemoteCard.bind(this));
             return Object.assign({}, defaultdata, savedata);
         },
 
@@ -4374,7 +4399,7 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 }, text);
             let primaryButtons = [
                 e("button", { onClick: this.create, className: "btn btn-primary"}, "New Card"),
-                e("button", { onClick: this.save, className: "btn btn-primary" }, "Submit Card"),
+                e("button", { onClick: this.submit, className: "btn btn-primary" }, cardEditID ? "Update Card" : "Submit Card"),
                 // e("button", { onClick: this.exportAsPrompt, className: "ipsButton ipsButton_primary" }, "Export As"),
                 // e("button", { onClick: this.open, className: "ipsButton ipsButton_primary" }, "Load Card"),
                 // e("button", { onClick: this.link1, className: "ipsButton ipsButton_primary gold", title: "YGOPRO is a free automatic Yu-Gi-Oh! online game. All cards are available and new cards are added as soon as they are announced. Click here to download YGOPRO." }, "YGOPRO"),
@@ -4889,6 +4914,10 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         },
         create: function create()
         {
+            window.cardEditID = null;
+            parent.postMessage(JSON.stringify([
+                { action: "clearSearch" }
+            ]));
             this.setState({ card: emptyCard });
         },
 
@@ -4907,6 +4936,170 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
             {
                 link.click();
             }
+        },
+
+        loadRemoteCard: function loadRemoteCard(card) {
+            const {
+                atk,
+                attribute,
+                copyright,
+                def,
+                effect,
+                icon,
+                setId: id,
+                cardArt: image,
+                layout,
+                level,
+                link,
+                name,
+                pendulum,
+                rarity,
+                serial,
+                type,
+                variant,
+            } = card;
+            const oldState = this.state.card;
+
+            let nextStateProps = {
+                atk,
+                attribute,
+                name,
+                copyright,
+                def,
+                effect,
+                icon,
+                id,
+                image,
+                layout,
+                level,
+                rarity,
+                serial,
+                type,
+                variant,
+            };
+            if(link) {
+                nextStateProps.link = link;
+            }
+            if(pendulum.enabled) {
+                nextStateProps.pendulum = pendulum;
+            }
+            else {
+                nextStateProps.pendulum = Object.assign({}, oldState.pendulum, { enabled: false });
+            }
+
+            const nextState = Object.assign({}, this.state, {
+                card: Object.assign({}, this.state.card, nextStateProps),
+            });
+            console.log("Next state:", nextState);
+            this.setState(nextState);
+            console.log("Done loading card from remote resource!");
+            this.render();
+        },
+
+        submit: function submit() {
+            let renderedURL = this.getDataURL("JPG");
+            console.log(this.state.card);
+            // extract subset from state
+            const {
+                atk,
+                attribute,
+                // boxSize,
+                copyright,
+                def,
+                effect,
+                icon,
+                id: setId,
+                image: cardArt,
+                layout,
+                level,
+                link,
+                name,
+                pendulum,
+                rarity,
+                serial,
+                type,
+                variant,
+            } = this.state.card;
+            
+            let uploadInfo = {
+                author: "TODO",
+                layout,
+                name,
+                effect,
+                type,
+                cardArt,
+                cardImage: renderedURL,
+                // cosmetic
+                setId, serial, copyright, rarity, variant,
+            };
+
+            if(layout === "Spell" || layout === "Trap") {
+                Object.assign(uploadInfo, {
+                    attribute, icon,
+                });
+            }
+            else if(layout === "Skill") {
+                // skills don't have attributes or icons
+            }
+            else {
+                // monster layouts
+                Object.assign(uploadInfo, {
+                    atk, def, level, attribute,
+                });
+                uploadInfo.link = layout === "Link" ? link : null;
+            }
+
+            if(pendulum.enabled) {
+                uploadInfo.pendulum = pendulum;
+            }
+            else {
+                uploadInfo.pendulum = { enabled: false };
+            }
+
+            console.log(uploadInfo);
+
+            fetch("/api/custom-card/submit.php", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    card: uploadInfo,
+                    id: cardEditID, // null or set at page load
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Response from server:", data);
+                    const { success, id, error, action } = data;
+                    if(success) {
+                        let body = document.createElement("p");
+                        let a = document.createElement("a");
+                        a.href = `/edit-card?id=${id}`;
+                        a.textContent = `Card #${id}`;
+                        body.textContent = "Edit card here: ";
+                        body.appendChild(a);
+                        let message;
+                        if(action === "insert") {
+                            message = "Card uploaded!";
+                        }
+                        else if(action === "update") {
+                            message = "Card updated!";
+                        }
+                        else if(action === "delete") {
+                            console.warn("Unhandled delete action encountered");
+                        }
+                        else {
+                            console.warn("Unhandled server action response: ", action);
+                            message = "Unspecified success result";
+                        }
+                        this.popup(message, body);
+                    }
+                    else {
+                        this.popup("Upload failed.", document.createTextNode("Error: " + error))
+                    }
+                });
         },
 
         // available styles: "default", "wide"
@@ -5107,6 +5300,31 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
         [Card.Kind.Skill]:   "if-skill",
         [Card.Kind.Anime]:   "if-anime",
         [Card.Kind.Rush]:    "if-rush",
+    };
+
+    window.cardEditID = null;
+    if(window.location.search.length) {
+        let params = window.location.search.slice(1).split(",");
+        let id = params.find(param => param.startsWith("id=")).slice(3);
+        window.cardEditID = id;
+        fetch(`/api/custom-card/get-single.php?id=${id}`, /*{
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: id,
+            }),
+        }*/)
+            .then(res => res.json())
+            .then(card => {
+                console.log("Retrieved card with id", id, card);
+                useLoadRemoteCardHook(card);
+            });
+    }
+    else {
+        console.log("no ?id=whatever to load from");
     }
     return CardMakerApp;
 });

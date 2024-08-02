@@ -1,29 +1,73 @@
-# [Card maker](https://yemachu.github.io/cardmaker/)
-Various trading card games have fans who wish to create their own cards... even if they can only be used among friends. Which would normally require usage of an image editing program. This project aims to lower the barrier for creating fan-made cards by providing templates for some common options.
+# API
 
-## Project structure
-The project consists of various folders which each contain their designated type of files. Following is a basic rundown of what each folder contains.
-- **build** - Configuration files for creating a minimized JavaScript file from the source code. Also contains said build if the command relevant command has been issued.
-- **css** - Cascading style sheets. These give the site its appearance.
-- **lib** - References to, or builds of, other projects on which this project depends. See ""[Cloning the project](#cloning-the-project)" for how to make sure all relevant files from the projects on which this one depends are downloaded.
-- **res** - Resource folder. This includes images used by the style sheets to make the site look more appealing, but also the resources needed for the card maker to render.
-- **src** - Contains the source code which is used to make the card maker function.
+## GET `/api/custom-card/get-single.php?id=string`
 
+Represents retrieval of a single custom by its ID. Returns a JSON `response`.
 
-## Working on the project
-There are multiple reasons thinkable to work on this project, though it will most likely boil down to wanting to improve it... at least from the point of view from the person who wishes to help.
+Parameters for `response`: See description of parameters for `body.card` in the `/api/custom-card/submit.php` route.
 
-Some people might want custom templates for certain trading card games. While amiable, they won't be accepted for this project; it could quickly grow out of hand. Though feel free to create a derivate in such a case.
+## POST `/api/custom-card/submit.php`
 
-### Other stuff
-Since the site works with mostly static content, it should be possible to test it by simply opening it in the browser from the filesystem. There however is no guarantee everything will work as expected. It is advised that anyone who wishes to work on (a derivative of) the application installs a server on their device for development. [NGINX](https://nginx.org/) was used for the development.
+Represents submission of a card. Accepts JSON `body`. Returns a JSON `response`. 
 
-### Cloning the project
+Parameters for `body`:
 
-This project references some other projects. Cloning it will usually leave the relevant folders empty. The following commands should populate the repository with the relevant files. People more savvy with Git might know better ways to get the same result, but it does its job.
+```js
+{
+    // request info:
+    "author": string, // string identifying the user submitting the card
+    // I don't know how you want to handle authentication for making sure users are only able to edit their own cards
+    "id": null or string, // null if action is to upload a new card
+    "card": {
+        // card info:
+        "layout": string, // one of "Normal", "Effect", "Ritual", "Fusion", "Synchro", "Xyz", "Link", "Token", "Spell", "Trap", or "Skill",
+        "name": string, // name of the card
+        "effect": string, // body of the card
+        "type": string, // the type line (for Monsters and Skills) or the byline (for Spells/Traps)
+        "cardArt": base64string, // the picture used for the card's art; starting with data:image/png;base64,
+        "cardImage": base64string, // the picture used to represent the entire card; starting with data:image/jpeg;base64
+        "setId": string, // cosmetic set ID; top right relative to textbox
+        "serial": string, // cosmetic serial number; bottom left relative to textbox
+        "copyright": string, // cosmetic copyright string; bottom right relative to textbox
+        "rarity": string, // visual rarity affecting card rendering; one of "common", "rare", "ultra", "secret", "mosaic", "shatter", "rainbow"
+        "variant": string, // the layout actually used by the card; one of "Normal" or "Anime"
+        "attribute": string, // the Attribute of the card; one of "None", "Dark", "Divine", "Earth", "Fire", "Light", "Water", "Wind", "Spell", or "Trap"
+        "pendulum": {
+            "enabled": boolean,
+            // the following parameters are only present if pendulum.enabled == true:
+            "effect": string, // the effect in the pendulum box
+            "blue": string, // the value corresponding to the blue (left) scale
+            "red": string, // the value corresponding to the red (right) scale
+            "boxSize": string, // the height of the pendulum box; one of "Small", "Normal", or "Large"
+        },
+        // monster specific parameters (only present if .layout is one of "Normal", "Effect", "Ritual", "Fusion", "Synchro", "Xyz", "Link", or "Token"):
+            "atk": string, // the ATK of the card
+            "def": string, // the DEF of the card
+            "level": string, // the Level/Rank/Link Rating of the card
+            "link": null or { // null if the card is not a link
+                // each of these corresponds to whether the arrow in the corresponding location is enabled (true) or not (false)
+                "bottomCenter": boolean,
+                "bottomLeft": boolean,
+                "bottomRight": boolean,
+                "middleLeft": boolean,
+                "middleRight": boolean,
+                "topCenter": boolean,
+                "topLeft": boolean,
+                "topRight": boolean,
+            },
+        // spell/trap specific parameters (only present if .layout is one of "Spell" or "Trap"):
+            "icon": string, // the icon in the bytline; one of "None", "Continuous", "Counter", "Equip", "Field", "Quick-Play", "Ritual", "Splice"
+    }
+}
+```
 
-```bash
-git clone https://github.com/Yemachu/cardmaker.git
-cd cardmaker
-git submodule update --init --recursive
+Parameters for `response`:
+
+```json
+{
+    "success": boolean, // returns true if the card was successfully added, false otherwise
+    "id": integer, // the internal ID associated with the card that was stored
+    "action": string, // the action the server took; one of "insert", "update", or "delete"
+    "error": string, // if .success == false, a string describing what went wrong
+}
 ```

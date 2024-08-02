@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Card</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Gadugi, sans-serif;
+        }
+        header {
+            height: 40px;
+            background-color: #7d3e12;
+            padding: 8px 16px;
+            color: white;
+            font-size: 30px;
+        }
+        iframe {
+            max-width: 1140px;
+            width: 1140px;
+            height: 642px;
+            border: 1px solid red;
+        }
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        p {
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        &gt;&gt;&gt;<code>/edit-card</code>&lt;&lt;&lt;
+    </header>
+    <article>
+        <p>This page shows an example of embedding the application. The red border is for demonstration purposes only.</p>
+        <div class="flex">
+            <!--<iframe src="http://192.168.1.153:8080/index.html">-->
+            <!-- <iframe src="http://localhost:8080/index.html"></iframe> -->
+            <iframe></iframe>
+        </div>
+    </article>
+    <script>
+        let iframe = document.querySelector("iframe");
+        iframe.src = `http://localhost:8080/index.html` + window.location.search;
+        window.addEventListener("message", function (ev) {
+            let message;
+            try {
+                message = JSON.parse(ev.data);
+            }
+            catch {
+                console.warn("Could not parse message from child");
+                return;
+            }
+            for(let { action } of message) {
+                if(action === "clearSearch") {
+                    let oldSearch = window.location.href;
+                    let newSearch = window.location.href.replace(window.location.search, "");
+                    console.log(oldSearch, newSearch);
+                    window.history.replaceState({}, oldSearch, newSearch);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

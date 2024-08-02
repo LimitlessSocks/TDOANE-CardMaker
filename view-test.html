@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sample Card Directory</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Gadugi, sans-serif;
+        }
+        header {
+            height: 40px;
+            background-color: #7d3e12;
+            padding: 8px 16px;
+            color: white;
+            font-size: 30px;
+        }
+        iframe {
+            max-width: 1140px;
+            width: 1140px;
+            height: 642px;
+            border: 1px solid red;
+        }
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        p {
+            margin: 15px;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card img {
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        &gt;&gt;&gt;<code>/view-test</code>&lt;&lt;&lt;
+    </header>
+    <article>
+        <p>This page shows an example of viewing the cards created by the <code>/api/custom-card/submit</code> route.</p>
+        <div class="flex" id="cardHolder">
+        </div>
+    </article>
+    <script>
+        const updateView = () => {
+            fetch("/api/custom-card/get-all.php").then(res => res.json()).then(data => {
+                while(cardHolder.firstChild) {
+                    cardHolder.removeChild(cardHolder.firstChild);
+                }
+                for(let [ id, card ] of Object.entries(data)) {
+                    let cardDiv = document.createElement("div");
+                    cardDiv.classList.add("card");
+                    cardDiv.textContent = `${card.name}`;
+                    let a = document.createElement("a");
+                    a.textContent = id;
+                    a.href = `/edit-card?id=${id}`;
+                    a.target = "_blank";
+                    cardDiv.appendChild(a);
+                    let img = document.createElement("img");
+                    img.src = card.cardImage;
+                    cardDiv.appendChild(img);
+                    cardHolder.appendChild(cardDiv);
+                }
+            });
+        };
+        updateView();
+        window.addEventListener("focus", updateView);
+    </script>
+</body>
+</html>
