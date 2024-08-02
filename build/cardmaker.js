@@ -5065,7 +5065,6 @@ define('tcg/ygo/CardMaker',["react", "react-class", "./Card", "webfont", "./Chec
                 },
                 body: JSON.stringify({
                     card: uploadInfo,
-                    author: "TODO",
                     id: cardEditID, // null or set at page load
                 }),
             })

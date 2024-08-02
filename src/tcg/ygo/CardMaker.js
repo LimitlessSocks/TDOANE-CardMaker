@@ -1029,7 +1029,6 @@ define(["react", "react-class", "./Card", "webfont", "./Checkbox"], function App
                 },
                 body: JSON.stringify({
                     card: uploadInfo,
-                    author: "TODO",
                     id: cardEditID, // null or set at page load
                 }),
             })

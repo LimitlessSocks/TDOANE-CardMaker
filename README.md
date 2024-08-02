@@ -1,22 +1,15 @@
 # API
 
-## GET `/api/custom-card/get-single.php?id=string`
-
-Represents retrieval of a single custom by its ID. Returns a JSON `response`.
-
-Parameters for `response`: See description of parameters for `body.card` in the `/api/custom-card/submit.php` route.
+This is the structure of the API used by the card maker.
 
 ## POST `/api/custom-card/submit.php`
 
-Represents submission of a card. Accepts JSON `body`. Returns a JSON `response`. 
+Represents submission of a card. This API call expects and accepts a JSON `body`, and returns a JSON `response`.
 
 Parameters for `body`:
 
 ```js
 {
-    // request info:
-    "author": string, // string identifying the user submitting the card
-    // I don't know how you want to handle authentication for making sure users are only able to edit their own cards
     "id": null or string, // null if action is to upload a new card
     "card": {
         // card info:
@@ -63,11 +56,13 @@ Parameters for `body`:
 
 Parameters for `response`:
 
-```json
+```js
 {
     "success": boolean, // returns true if the card was successfully added, false otherwise
     "id": integer, // the internal ID associated with the card that was stored
     "action": string, // the action the server took; one of "insert", "update", or "delete"
-    "error": string, // if .success == false, a string describing what went wrong
+    // controls for the message displayed to the user
+    // note: "delete" action not (currently) handled by frontend
+    "error": string, // provided iff .success == false, a string describing what went wrong
 }
 ```
