@@ -25,7 +25,7 @@
   "homepage": "https://github.com/LimitlessSocks/TDOANE-CardMaker#readme",
   "dependencies": {
     "connect": "^3.7.0",
-    "requirejs": "^2.3.6",
+    "requirejs": "^2.3.7",
     "serve-static": "^1.16.2"
   }
 }
